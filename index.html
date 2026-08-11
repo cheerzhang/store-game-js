@@ -10,7 +10,7 @@
   <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/game-icon-192.png">
   <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
   <title>迟灯杂货铺</title>
-  <link rel="stylesheet" href="styles.css?v=37">
+  <link rel="stylesheet" href="styles.css?v=38">
 </head>
 <body>
   <div class="grain" aria-hidden="true"></div>
@@ -31,8 +31,7 @@
     <section class="game-page active" id="page-visitor">
       <div class="weather-layer" id="weatherLayer" aria-hidden="true"></div>
       <div class="page-hero"><div><p class="eyebrow">今晚营业中</p><h1>门铃只为<br><em>有缘人</em>响起。</h1></div><div><p class="lede">每天，一件怪东西会出现在柜台上。每天，一位客人带着一个不能告诉别人的愿望推门而入。</p><div class="chapter-progress"><div><span id="chapterName">第一章 · 初燃的灯</span><small id="chapterHint">距离下一章还有 7 天</small></div><div class="chapter-track"><i id="chapterProgress"></i></div></div></div></div>
-      <section class="calendar-ribbon" aria-label="迟灯历"><div><span class="calendar-moon" id="calendarMoon">🌑</span><strong id="moonName">新月</strong></div><div><small>季节</small><strong id="seasonName">春季</strong></div><div><small>月份</small><strong id="monthName">春一月</strong></div><div><small>星期</small><strong id="weekdayName">星期一</strong></div><div><small>天气</small><strong id="weatherName">🌧️ 细雨</strong></div><div class="calendar-note"><small>迟灯历</small><strong id="calendarDate">第 1 年 · 第 1 月</strong></div></section>
-      <section class="daily-drops"><div><p class="eyebrow">清晨拾获</p><strong>今日掉落</strong></div><div class="drop-list" id="dailyDropList"></div></section>
+      <section class="calendar-ribbon" id="calendarRibbon" aria-label="迟灯历"><div class="moon-cell"><span class="calendar-moon" id="calendarMoon">🌑</span><strong id="moonName">新月</strong></div><div><span class="calendar-symbol" id="seasonIcon">🌱</span><small>季节</small><strong id="seasonName">春季</strong></div><div><span class="calendar-symbol">◫</span><small>月份</small><strong id="monthName">春一月</strong></div><div><span class="calendar-symbol">✦</span><small>星期</small><strong id="weekdayName">星期一</strong></div><div><span class="calendar-symbol" id="weatherIcon">🌧️</span><small>天气</small><strong id="weatherName">细雨</strong></div><div class="calendar-note"><small>迟灯历</small><strong id="calendarDate">第 1 年 · 第 1 月</strong></div></section>
       <section class="visitor-forecast"><div class="forecast-heading"><div><p class="eyebrow">今夜门铃</p><strong>可能来访的客人</strong></div><span id="forecastCount">0 位符合条件 · 最终只会来一位</span></div><div class="forecast-list" id="potentialVisitors"></div></section>
       <section class="counter" aria-label="今日来客">
         <div class="customer-card"><div class="portrait"><img id="portraitImage" src="assets/visitors/mr-chestnuttail.png" alt="栗尾先生"></div><div class="customer-meta"><span class="tag" id="customerKind">兽客</span><h2 id="customerName">栗尾先生</h2><p id="customerTrait"></p><div class="favor-inline">好感 <b id="currentFavor">0</b> <span id="favorHearts">♡♡♡♡♡</span></div></div></div>
@@ -40,7 +39,9 @@
       </section>
       <section class="mood-panel"><div><p class="eyebrow">今日心情</p><strong id="moodTitle">正在观察店里…</strong></div><div class="mood-effects" id="moodEffects"></div></section>
       <section class="decision-panel"><div class="availability"><span class="dot"></span><span id="availabilityText">检查货架中…</span></div><div class="actions"><button class="button primary" id="sellButton">卖给客人 <span>→</span></button><button class="button craft" id="craftButton">制作 <span id="craftCost"></span></button><button class="button ghost" id="refuseButton">婉言拒绝</button></div></section>
+      <section class="daily-drops"><div><p class="eyebrow">清晨拾获</p><strong>今日掉落</strong></div><div class="drop-list" id="dailyDropList"></div></section>
       <details class="quick-inventory"><summary><span><small>店内速览</small><strong>看看店里有什么</strong></span><span class="summary-count" id="quickInventoryCount">0 件库存</span></summary><div id="quickInventory"></div></details>
+      <aside class="closing-bar" id="closingBar" hidden><div><small>客人已经离开</small><strong>今晚的布置完成了吗？</strong></div><span>确认后将进入明天，陈设和展示品会从新的一天开始生效。</span><button class="button primary" id="endDayButton">布置完成，结束一天 →</button></aside>
       <button class="text-button reset home-reset" id="resetButton">清空本地数据，重新开店</button>
     </section>
 
@@ -79,13 +80,11 @@
     </section>
   </main>
 
-  <aside class="closing-bar" id="closingBar" hidden><div><small>客人已经离开</small><strong>现在可以为明天调整店铺</strong></div><span>天气、陈设和展示品都会影响明日来客</span><button class="button primary" id="endDayButton">布置完成，结束一天 →</button></aside>
-
   <footer><span>营业时间：日落之后 — 梦醒之前</span><span>所有故事仅保存在这台设备上</span></footer>
   <dialog id="resultDialog"><div class="dialog-inner"><span class="dialog-icon" id="dialogIcon">✦</span><p class="eyebrow" id="dialogLabel"></p><h2 id="dialogTitle"></h2><p id="dialogText"></p><button class="button primary" id="nextDayButton">开始打烊布置 <span>→</span></button></div></dialog>
   <dialog id="noticeDialog"><div class="dialog-inner"><span class="dialog-icon">✦</span><p class="eyebrow" id="noticeLabel">店铺陈设</p><h2 id="noticeTitle"></h2><p id="noticeText"></p><button class="button primary" id="noticeClose">知道了</button></div></dialog>
-  <script src="data/items.js?v=37"></script>
-  <script src="data/visitors.js?v=37"></script>
-  <script src="game.js?v=37"></script>
+  <script src="data/items.js?v=38"></script>
+  <script src="data/visitors.js?v=38"></script>
+  <script src="game.js?v=38"></script>
 </body>
 </html>
