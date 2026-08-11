@@ -10,7 +10,7 @@
   <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/game-icon-192.png">
   <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
   <title>迟灯杂货铺</title>
-  <link rel="stylesheet" href="styles.css?v=38">
+  <link rel="stylesheet" href="styles.css?v=39">
 </head>
 <body>
   <div class="grain" aria-hidden="true"></div>
@@ -76,15 +76,15 @@
       <div class="log-summary" id="logSummary"></div>
       <div class="section-heading log-guests-heading"><div><p class="eyebrow">来客小结</p><h2>客人与交易</h2></div><span class="catalog-note">只记录已经结识的客人</span></div>
       <div class="guest-stats" id="guestStats"></div>
-      <div class="ledger"><div class="section-heading"><div><p class="eyebrow">往日故事</p><h2>逐日记事</h2></div><span class="catalog-note">最近发生的事排在最前</span></div><div id="historyList" class="history-list"></div></div>
+      <details class="ledger history-book"><summary><div><p class="eyebrow">往日故事</p><h2>逐日记事</h2></div><span class="catalog-note">默认收起 · 点击展开最近记录</span></summary><div id="historyList" class="history-list"></div></details>
     </section>
   </main>
 
   <footer><span>营业时间：日落之后 — 梦醒之前</span><span>所有故事仅保存在这台设备上</span></footer>
   <dialog id="resultDialog"><div class="dialog-inner"><span class="dialog-icon" id="dialogIcon">✦</span><p class="eyebrow" id="dialogLabel"></p><h2 id="dialogTitle"></h2><p id="dialogText"></p><button class="button primary" id="nextDayButton">开始打烊布置 <span>→</span></button></div></dialog>
   <dialog id="noticeDialog"><div class="dialog-inner"><span class="dialog-icon">✦</span><p class="eyebrow" id="noticeLabel">店铺陈设</p><h2 id="noticeTitle"></h2><p id="noticeText"></p><button class="button primary" id="noticeClose">知道了</button></div></dialog>
-  <script src="data/items.js?v=38"></script>
-  <script src="data/visitors.js?v=38"></script>
-  <script src="game.js?v=38"></script>
+  <script src="data/items.js?v=39"></script>
+  <script src="data/visitors.js?v=39"></script>
+  <script src="game.js?v=39"></script>
 </body>
 </html>
