@@ -85,3 +85,14 @@ window.VISITOR_MOODS = {
   "彗星厨师":{weather:{clear:2,rain:-2},decor:{teaset:2,lamp:1,plant:-1},products:{"星火盐罐":2,"不融冰":-1}},
   "黄昏占卜师":{weather:{fog:2,clear:-1},decor:{rug:2,clock:2,cat:1},products:{"黄昏骰子":2,"不撒谎的镜子":1}}
 };
+
+/* 独立角色头像资源，文件顺序与上方访客配置一一对应。 */
+window.VISITOR_PORTRAITS = {
+  "钟婆婆":"clock-grandma.png","裁缝小满":"tailor-xiaoman.png","雨伞修补匠":"umbrella-repairer.png","纸灯老师":"paper-lantern-teacher.png",
+  "栗尾先生":"mr-chestnuttail.png","阿墨":"amo-crow.png","瞌睡的獾":"sleepy-badger.png","雾鹿女士":"lady-fog-deer.png",
+  "雨巷邮差":"rain-alley-postman.png","没有影子的小姐":"shadowless-lady.png","门缝幽灵":"door-ghost.png","倒影先生":"mr-reflection.png",
+  "贝壳里的男孩":"shell-boy.png","北斗船长":"captain-polaris.png","沙海商人萨曼":"saman.png","候鸟邮差":"migratory-postman.png",
+  "失眠的云":"insomniac-cloud.png","衔火的蛾":"fire-moth.png","苔藓爷爷":"moss-grandpa.png","河流的女儿":"river-daughter.png",
+  "最后一颗星":"last-star.png","月亮抄写员":"moon-scribe.png","彗星厨师":"comet-chef.png","黄昏占卜师":"dusk-diviner.png"
+};
+window.GAME_VISITORS.forEach(visitor=>visitor.portrait=`assets/visitors/${window.VISITOR_PORTRAITS[visitor.name]}`);

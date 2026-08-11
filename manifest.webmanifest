@@ -1,0 +1,13 @@
+{
+  "name": "迟灯杂货铺",
+  "short_name": "迟灯杂货",
+  "description": "经营一家只在黄昏后出现的奇怪小店。",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#191410",
+  "theme_color": "#191410",
+  "icons": [
+    {"src": "assets/icons/game-icon-192.png", "sizes": "192x192", "type": "image/png"},
+    {"src": "assets/icons/game-icon-512.png", "sizes": "512x512", "type": "image/png"}
+  ]
+}
