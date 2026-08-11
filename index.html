@@ -7,7 +7,7 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta name="description" content="经营一家只在黄昏后出现的奇怪小店。">
   <title>迟灯杂货铺</title>
-  <link rel="stylesheet" href="styles.css?v=33">
+  <link rel="stylesheet" href="styles.css?v=35">
 </head>
 <body>
   <div class="grain" aria-hidden="true"></div>
@@ -18,6 +18,7 @@
       <button class="nav-link" data-page="inventory">货架</button>
       <button class="nav-link" data-page="ledger">客簿</button>
       <button class="nav-link" data-page="shop">店铺</button>
+      <button class="nav-link" data-page="forecast">预报</button>
       <button class="nav-link" data-page="log">日志</button>
     </nav>
     <div class="status-row"><span id="chapterBadge">第一章</span><span>第 <b id="dayNumber">1</b> 日</span><span class="moon">◐</span><span><b id="coinCount">12</b> 枚铜币</span></div>
@@ -41,7 +42,7 @@
 
     <section class="game-page" id="page-inventory">
       <div class="page-title"><p class="eyebrow">店内一览</p><h1>货架与材料</h1><p>每件东西都有自己的脾气。材料会在每天清晨悄悄出现。</p></div>
-      <section class="display-shelf"><div><p class="eyebrow">柜台展示</p><strong>最多摆出 3 件成品</strong><small>展示品可能改变不同客人的心情与报价</small></div><div id="displayedProducts"></div></section>
+      <section class="display-shelf" id="displayShelf"><div><p class="eyebrow">柜台展示</p><strong>最多摆出 3 件成品</strong><small id="displayShelfHint">客人离开后才能调整明日陈列</small></div><div id="displayedProducts"></div></section>
       <div class="shelf-grid" id="inventoryGrid"></div>
     </section>
 
@@ -58,6 +59,14 @@
       <button class="text-button reset" id="resetButton">清除存档，重新开店</button>
     </section>
 
+    <section class="game-page" id="page-forecast">
+      <div class="page-title"><p class="eyebrow">TOMORROW'S SIGNS</p><h1>明日预报</h1><p>屋檐上的风向针只能听懂几种可能。它从不保证哪一种天气最终抵达，却很少说出名单之外的答案。</p></div>
+      <section class="tomorrow-calendar" id="tomorrowCalendar"></section>
+      <div class="section-heading forecast-weather-heading"><div><p class="eyebrow">天气可能</p><h2>风向针的猜测</h2></div><span class="catalog-note">明日天气必定来自以下结果</span></div>
+      <div class="weather-options" id="weatherOptions"></div>
+      <section class="forecast-guests" id="forecastGuests"></section>
+    </section>
+
     <section class="game-page" id="page-log">
       <div class="page-title log-title"><p class="eyebrow">THE SHOP JOURNAL</p><h1>经营日志</h1><p>铜铃响过多少次，故事便在纸上留下多少道痕迹。这里记着小店走过的日子，也记着每一位曾推门而入的客人。</p></div>
       <div class="log-summary" id="logSummary"></div>
@@ -67,11 +76,13 @@
     </section>
   </main>
 
+  <aside class="closing-bar" id="closingBar" hidden><div><small>客人已经离开</small><strong>现在可以为明天调整店铺</strong></div><span>天气、陈设和展示品都会影响明日来客</span><button class="button primary" id="endDayButton">布置完成，结束一天 →</button></aside>
+
   <footer><span>营业时间：日落之后 — 梦醒之前</span><span>所有故事仅保存在这台设备上</span></footer>
-  <dialog id="resultDialog"><div class="dialog-inner"><span class="dialog-icon" id="dialogIcon">✦</span><p class="eyebrow" id="dialogLabel"></p><h2 id="dialogTitle"></h2><p id="dialogText"></p><button class="button primary" id="nextDayButton">关门，迎接明天 <span>→</span></button></div></dialog>
+  <dialog id="resultDialog"><div class="dialog-inner"><span class="dialog-icon" id="dialogIcon">✦</span><p class="eyebrow" id="dialogLabel"></p><h2 id="dialogTitle"></h2><p id="dialogText"></p><button class="button primary" id="nextDayButton">开始打烊布置 <span>→</span></button></div></dialog>
   <dialog id="noticeDialog"><div class="dialog-inner"><span class="dialog-icon">✦</span><p class="eyebrow" id="noticeLabel">店铺陈设</p><h2 id="noticeTitle"></h2><p id="noticeText"></p><button class="button primary" id="noticeClose">知道了</button></div></dialog>
-  <script src="data/items.js?v=33"></script>
-  <script src="data/visitors.js?v=33"></script>
-  <script src="game.js?v=33"></script>
+  <script src="data/items.js?v=35"></script>
+  <script src="data/visitors.js?v=35"></script>
+  <script src="game.js?v=35"></script>
 </body>
 </html>
