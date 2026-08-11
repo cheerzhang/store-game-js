@@ -96,3 +96,18 @@ window.VISITOR_PORTRAITS = {
   "最后一颗星":"last-star.png","月亮抄写员":"moon-scribe.png","彗星厨师":"comet-chef.png","黄昏占卜师":"dusk-diviner.png"
 };
 window.GAME_VISITORS.forEach(visitor=>visitor.portrait=`assets/visitors/${window.VISITOR_PORTRAITS[visitor.name]}`);
+
+/*
+ * 交易心情类型：
+ * payment 只改变付款；quantity 只改变需求数量；both 同时改变二者。
+ * quantity / both 的基础需求为 2 件，心情好降到 1 件，心情差升到 3 件。
+ */
+window.VISITOR_TRADE_STYLES = {
+  "钟婆婆":"payment","裁缝小满":"payment","纸灯老师":"payment","阿墨":"payment",
+  "北斗船长":"payment","沙海商人萨曼":"payment","月亮抄写员":"payment","黄昏占卜师":"payment",
+  "栗尾先生":"quantity","瞌睡的獾":"quantity","雨伞修补匠":"quantity","门缝幽灵":"quantity",
+  "贝壳里的男孩":"quantity","苔藓爷爷":"quantity","河流的女儿":"quantity","候鸟邮差":"quantity",
+  "雨巷邮差":"both","没有影子的小姐":"both","雾鹿女士":"both","倒影先生":"both",
+  "失眠的云":"both","衔火的蛾":"both","最后一颗星":"both","彗星厨师":"both"
+};
+window.GAME_VISITORS.forEach(visitor=>visitor.tradeStyle=window.VISITOR_TRADE_STYLES[visitor.name]||"payment");
