@@ -7,7 +7,7 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta name="description" content="经营一家只在黄昏后出现的奇怪小店。">
   <title>迟灯杂货铺</title>
-  <link rel="stylesheet" href="styles.css?v=27">
+  <link rel="stylesheet" href="styles.css?v=32">
 </head>
 <body>
   <div class="grain" aria-hidden="true"></div>
@@ -18,12 +18,14 @@
       <button class="nav-link" data-page="inventory">货架</button>
       <button class="nav-link" data-page="ledger">客簿</button>
       <button class="nav-link" data-page="shop">店铺</button>
+      <button class="nav-link" data-page="log">日志</button>
     </nav>
     <div class="status-row"><span id="chapterBadge">第一章</span><span>第 <b id="dayNumber">1</b> 日</span><span class="moon">◐</span><span><b id="coinCount">12</b> 枚铜币</span></div>
   </header>
 
   <main>
     <section class="game-page active" id="page-visitor">
+      <div class="weather-layer" id="weatherLayer" aria-hidden="true"></div>
       <div class="page-hero"><div><p class="eyebrow">今晚营业中</p><h1>门铃只为<br><em>有缘人</em>响起。</h1></div><div><p class="lede">每天，一件怪东西会出现在柜台上。每天，一位客人带着一个不能告诉别人的愿望推门而入。</p><div class="chapter-progress"><div><span id="chapterName">第一章 · 初燃的灯</span><small id="chapterHint">距离下一章还有 7 天</small></div><div class="chapter-track"><i id="chapterProgress"></i></div></div></div></div>
       <section class="calendar-ribbon" aria-label="迟灯历"><div><span class="calendar-moon" id="calendarMoon">🌑</span><strong id="moonName">新月</strong></div><div><small>季节</small><strong id="seasonName">春季</strong></div><div><small>月份</small><strong id="monthName">春一月</strong></div><div><small>星期</small><strong id="weekdayName">星期一</strong></div><div><small>天气</small><strong id="weatherName">🌧️ 细雨</strong></div><div class="calendar-note"><small>迟灯历</small><strong id="calendarDate">第 1 年 · 第 1 月</strong></div></section>
       <section class="daily-drops"><div><p class="eyebrow">清晨拾获</p><strong>今日掉落</strong></div><div class="drop-list" id="dailyDropList"></div></section>
@@ -44,7 +46,6 @@
     <section class="game-page" id="page-ledger">
       <div class="page-title"><p class="eyebrow">来客名录</p><h1>客簿与手记</h1><p>善意会被记住。好感越高，客人越常回来，也越愿意拿出珍贵的报酬。</p></div>
       <div class="relationship-grid" id="relationshipGrid"></div>
-      <div class="ledger"><div class="section-heading"><div><p class="eyebrow">往日故事</p><h2>近日发生的事</h2></div></div><div id="historyList" class="history-list"></div></div>
     </section>
 
     <section class="game-page" id="page-shop">
@@ -54,13 +55,21 @@
       <div class="decor-grid" id="decorGrid"></div>
       <button class="text-button reset" id="resetButton">清除存档，重新开店</button>
     </section>
+
+    <section class="game-page" id="page-log">
+      <div class="page-title log-title"><p class="eyebrow">THE SHOP JOURNAL</p><h1>经营日志</h1><p>铜铃响过多少次，故事便在纸上留下多少道痕迹。这里记着小店走过的日子，也记着每一位曾推门而入的客人。</p></div>
+      <div class="log-summary" id="logSummary"></div>
+      <div class="section-heading log-guests-heading"><div><p class="eyebrow">来客小结</p><h2>客人与交易</h2></div><span class="catalog-note">只记录已经结识的客人</span></div>
+      <div class="guest-stats" id="guestStats"></div>
+      <div class="ledger"><div class="section-heading"><div><p class="eyebrow">往日故事</p><h2>逐日记事</h2></div><span class="catalog-note">最近发生的事排在最前</span></div><div id="historyList" class="history-list"></div></div>
+    </section>
   </main>
 
   <footer><span>营业时间：日落之后 — 梦醒之前</span><span>所有故事仅保存在这台设备上</span></footer>
   <dialog id="resultDialog"><div class="dialog-inner"><span class="dialog-icon" id="dialogIcon">✦</span><p class="eyebrow" id="dialogLabel"></p><h2 id="dialogTitle"></h2><p id="dialogText"></p><button class="button primary" id="nextDayButton">关门，迎接明天 <span>→</span></button></div></dialog>
   <dialog id="noticeDialog"><div class="dialog-inner"><span class="dialog-icon">✦</span><p class="eyebrow" id="noticeLabel">店铺陈设</p><h2 id="noticeTitle"></h2><p id="noticeText"></p><button class="button primary" id="noticeClose">知道了</button></div></dialog>
-  <script src="data/items.js?v=27"></script>
-  <script src="data/visitors.js?v=27"></script>
-  <script src="game.js?v=27"></script>
+  <script src="data/items.js?v=32"></script>
+  <script src="data/visitors.js?v=32"></script>
+  <script src="game.js?v=32"></script>
 </body>
 </html>
