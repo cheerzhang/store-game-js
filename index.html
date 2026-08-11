@@ -7,7 +7,7 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta name="description" content="经营一家只在黄昏后出现的奇怪小店。">
   <title>迟灯杂货铺</title>
-  <link rel="stylesheet" href="styles.css?v=35">
+  <link rel="stylesheet" href="styles.css?v=36">
 </head>
 <body>
   <div class="grain" aria-hidden="true"></div>
@@ -38,6 +38,7 @@
       <section class="mood-panel"><div><p class="eyebrow">今日心情</p><strong id="moodTitle">正在观察店里…</strong></div><div class="mood-effects" id="moodEffects"></div></section>
       <section class="decision-panel"><div class="availability"><span class="dot"></span><span id="availabilityText">检查货架中…</span></div><div class="actions"><button class="button primary" id="sellButton">卖给客人 <span>→</span></button><button class="button craft" id="craftButton">制作 <span id="craftCost"></span></button><button class="button ghost" id="refuseButton">婉言拒绝</button></div></section>
       <details class="quick-inventory"><summary><span><small>店内速览</small><strong>看看店里有什么</strong></span><span class="summary-count" id="quickInventoryCount">0 件库存</span></summary><div id="quickInventory"></div></details>
+      <button class="text-button reset home-reset" id="resetButton">清空本地数据，重新开店</button>
     </section>
 
     <section class="game-page" id="page-inventory">
@@ -56,7 +57,6 @@
       <div class="room" id="room"><div class="ceiling-beam"></div><div class="room-window"><span id="windowMoon">🌑</span><small id="windowSky">春季 · 新月</small></div><div class="wall-frames"><i>✦</i><i>?</i></div><div class="room-shelves"><span>◈</span><span>♢</span><span>◉</span><span>△</span><span>✧</span><span>▱</span></div><div class="room-counter"><span>迟灯杂货</span><small>ODDMENTS</small></div><div class="floor-lines"></div><div class="decor-layer" id="decorLayer"></div></div>
       <div class="section-heading decor-heading"><div><p class="eyebrow">可添置</p><h2>陈设目录</h2></div><span class="catalog-note" id="decorStatus">购买后可以随时摆出或收起</span></div>
       <div class="decor-grid" id="decorGrid"></div>
-      <button class="text-button reset" id="resetButton">清除存档，重新开店</button>
     </section>
 
     <section class="game-page" id="page-forecast">
@@ -81,8 +81,8 @@
   <footer><span>营业时间：日落之后 — 梦醒之前</span><span>所有故事仅保存在这台设备上</span></footer>
   <dialog id="resultDialog"><div class="dialog-inner"><span class="dialog-icon" id="dialogIcon">✦</span><p class="eyebrow" id="dialogLabel"></p><h2 id="dialogTitle"></h2><p id="dialogText"></p><button class="button primary" id="nextDayButton">开始打烊布置 <span>→</span></button></div></dialog>
   <dialog id="noticeDialog"><div class="dialog-inner"><span class="dialog-icon">✦</span><p class="eyebrow" id="noticeLabel">店铺陈设</p><h2 id="noticeTitle"></h2><p id="noticeText"></p><button class="button primary" id="noticeClose">知道了</button></div></dialog>
-  <script src="data/items.js?v=35"></script>
-  <script src="data/visitors.js?v=35"></script>
-  <script src="game.js?v=35"></script>
+  <script src="data/items.js?v=36"></script>
+  <script src="data/visitors.js?v=36"></script>
+  <script src="game.js?v=36"></script>
 </body>
 </html>
