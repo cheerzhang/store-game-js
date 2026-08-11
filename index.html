@@ -4,9 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#191714">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta name="description" content="经营一家只在黄昏后出现的奇怪小店。">
   <title>迟灯杂货铺</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=26">
 </head>
 <body>
   <div class="grain" aria-hidden="true"></div>
@@ -18,17 +19,20 @@
       <button class="nav-link" data-page="ledger">客簿</button>
       <button class="nav-link" data-page="shop">店铺</button>
     </nav>
-    <div class="status-row"><span>第 <b id="dayNumber">1</b> 日</span><span class="moon">◐</span><span><b id="coinCount">12</b> 枚铜币</span></div>
+    <div class="status-row"><span id="chapterBadge">第一章</span><span>第 <b id="dayNumber">1</b> 日</span><span class="moon">◐</span><span><b id="coinCount">12</b> 枚铜币</span></div>
   </header>
 
   <main>
     <section class="game-page active" id="page-visitor">
-      <div class="page-hero"><div><p class="eyebrow">今晚营业中</p><h1>门铃只为<br><em>有缘人</em>响起。</h1></div><p class="lede">每天，一件怪东西会出现在柜台上。每天，一位客人带着一个不能告诉别人的愿望推门而入。</p></div>
+      <div class="page-hero"><div><p class="eyebrow">今晚营业中</p><h1>门铃只为<br><em>有缘人</em>响起。</h1></div><div><p class="lede">每天，一件怪东西会出现在柜台上。每天，一位客人带着一个不能告诉别人的愿望推门而入。</p><div class="chapter-progress"><div><span id="chapterName">第一章 · 初燃的灯</span><small id="chapterHint">距离下一章还有 7 天</small></div><div class="chapter-track"><i id="chapterProgress"></i></div></div></div></div>
+      <section class="calendar-ribbon" aria-label="迟灯历"><div><span class="calendar-moon" id="calendarMoon">🌑</span><strong id="moonName">新月</strong></div><div><small>季节</small><strong id="seasonName">春季</strong></div><div><small>月份</small><strong id="monthName">春一月</strong></div><div><small>星期</small><strong id="weekdayName">星期一</strong></div><div><small>天气</small><strong id="weatherName">🌧️ 细雨</strong></div><div class="calendar-note"><small>迟灯历</small><strong id="calendarDate">第 1 年 · 第 1 月</strong></div></section>
+      <section class="daily-drops"><div><p class="eyebrow">清晨拾获</p><strong>今日掉落</strong></div><div class="drop-list" id="dailyDropList"></div></section>
       <section class="counter" aria-label="今日来客">
         <div class="customer-card"><div class="portrait"><span id="portraitIcon">🦊</span></div><div class="customer-meta"><span class="tag" id="customerKind">兽客</span><h2 id="customerName">栗尾先生</h2><p id="customerTrait"></p><div class="favor-inline">好感 <b id="currentFavor">0</b> <span id="favorHearts">♡♡♡♡♡</span></div></div></div>
         <div class="story-card"><span class="quote-mark">“</span><p id="customerStory"></p><div class="request"><span>想要</span><strong id="requestedItem"></strong></div><div class="payment"><span>愿意支付</span><strong id="paymentOffer"></strong></div></div>
       </section>
       <section class="decision-panel"><div class="availability"><span class="dot"></span><span id="availabilityText">检查货架中…</span></div><div class="actions"><button class="button primary" id="sellButton">卖给客人 <span>→</span></button><button class="button craft" id="craftButton">制作 <span id="craftCost"></span></button><button class="button ghost" id="refuseButton">婉言拒绝</button></div></section>
+      <details class="quick-inventory"><summary><span><small>店内速览</small><strong>看看店里有什么</strong></span><span class="summary-count" id="quickInventoryCount">0 件库存</span></summary><div id="quickInventory"></div></details>
     </section>
 
     <section class="game-page" id="page-inventory">
@@ -44,7 +48,7 @@
 
     <section class="game-page" id="page-shop">
       <div class="page-title shop-title"><div><p class="eyebrow">慢慢布置</p><h1>我的小店</h1><p>用交易所得装点这里。每一件陈设都会留在店中，让夜晚变得更温暖。</p></div><div class="comfort"><span>店铺温暖度</span><strong id="comfortScore">0</strong></div></div>
-      <div class="room" id="room"><div class="ceiling-beam"></div><div class="room-window"><span>☾</span><small>迟灯巷</small></div><div class="wall-frames"><i>✦</i><i>?</i></div><div class="room-shelves"><span>◈</span><span>♢</span><span>◉</span><span>△</span><span>✧</span><span>▱</span></div><div class="room-counter"><span>迟灯杂货</span><small>ODDMENTS</small></div><div class="floor-lines"></div><div class="decor-layer" id="decorLayer"></div></div>
+      <div class="room" id="room"><div class="ceiling-beam"></div><div class="room-window"><span id="windowMoon">🌑</span><small id="windowSky">春季 · 新月</small></div><div class="wall-frames"><i>✦</i><i>?</i></div><div class="room-shelves"><span>◈</span><span>♢</span><span>◉</span><span>△</span><span>✧</span><span>▱</span></div><div class="room-counter"><span>迟灯杂货</span><small>ODDMENTS</small></div><div class="floor-lines"></div><div class="decor-layer" id="decorLayer"></div></div>
       <div class="section-heading decor-heading"><div><p class="eyebrow">可添置</p><h2>陈设目录</h2></div><span class="catalog-note">每件陈设都有实际作用 · 购买后永久保留</span></div>
       <div class="decor-grid" id="decorGrid"></div>
       <button class="text-button reset" id="resetButton">清除存档，重新开店</button>
@@ -53,7 +57,9 @@
 
   <footer><span>营业时间：日落之后 — 梦醒之前</span><span>所有故事仅保存在这台设备上</span></footer>
   <dialog id="resultDialog"><div class="dialog-inner"><span class="dialog-icon" id="dialogIcon">✦</span><p class="eyebrow" id="dialogLabel"></p><h2 id="dialogTitle"></h2><p id="dialogText"></p><button class="button primary" id="nextDayButton">关门，迎接明天 <span>→</span></button></div></dialog>
-  <dialog id="noticeDialog"><div class="dialog-inner"><span class="dialog-icon">✦</span><p class="eyebrow">店铺陈设</p><h2 id="noticeTitle"></h2><p id="noticeText"></p><button class="button primary" id="noticeClose">放到店里</button></div></dialog>
-  <script src="game.js"></script>
+  <dialog id="noticeDialog"><div class="dialog-inner"><span class="dialog-icon">✦</span><p class="eyebrow" id="noticeLabel">店铺陈设</p><h2 id="noticeTitle"></h2><p id="noticeText"></p><button class="button primary" id="noticeClose">知道了</button></div></dialog>
+  <script src="data/items.js?v=26"></script>
+  <script src="data/visitors.js?v=26"></script>
+  <script src="game.js?v=26"></script>
 </body>
 </html>
