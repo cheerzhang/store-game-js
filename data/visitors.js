@@ -53,3 +53,35 @@ window.VISITOR_CATEGORIES = {
   human:"普通人类", beast:"兽客", night:"夜行异客",
   traveler:"远方旅人", nature:"精怪与自然灵", astral:"星辰与神秘存在"
 };
+
+/*
+ * 每位访客的店内心情配置。数值会影响当日报价：
+ * weather 对应天气 id；decor 对应陈设 id；products 对应展示中的成品名。
+ * 正数代表喜欢，负数代表不喜欢；未配置的项目没有影响。
+ */
+window.VISITOR_MOODS = {
+  "钟婆婆":{weather:{storm:-2,clear:1},decor:{clock:2,teaset:1,cat:-1},products:{"无声剪刀":1,"星图罗盘":-1}},
+  "裁缝小满":{weather:{storm:-2,rain:-1},decor:{rug:2,lamp:1,clock:-1},products:{"梦境纽扣":2,"影子雨伞":1}},
+  "雨伞修补匠":{weather:{rain:2,clear:-1},decor:{teaset:1,plant:1,clock:-1},products:{"雨天火柴":2,"不融冰":-1}},
+  "纸灯老师":{weather:{clear:1,storm:-1},decor:{lamp:2,cat:1,rug:-1},products:{"记忆蜡烛":2,"遗忘粉笔":1}},
+  "栗尾先生":{weather:{wind:2,storm:-1},decor:{cat:2,plant:1,clock:-1},products:{"归巢铃":2,"捕风瓶":1}},
+  "阿墨":{weather:{clear:1,fog:-1},decor:{cat:-2,clock:2,lamp:1},products:{"不撒谎的镜子":2,"星火盐罐":1}},
+  "瞌睡的獾":{weather:{storm:1,wind:-1},decor:{rug:2,teaset:2,clock:-2},products:{"借梦枕":2,"梦境纽扣":1}},
+  "雾鹿女士":{weather:{fog:2,clear:-1},decor:{plant:2,lamp:1,cat:-1},products:{"慢时喷壶":2,"雾路提灯":1}},
+  "雨巷邮差":{weather:{rain:2,clear:-2},decor:{lamp:2,teaset:1,cat:1},products:{"影子雨伞":2,"黎明信封":1}},
+  "没有影子的小姐":{weather:{fog:1,clear:-2},decor:{rug:2,lamp:-1,clock:1},products:{"不撒谎的镜子":-2,"影子雨伞":1}},
+  "门缝幽灵":{weather:{fog:2,wind:-1},decor:{cat:2,teaset:1,clock:-1},products:{"钥匙糖":2,"黎明信封":1}},
+  "倒影先生":{weather:{rain:2,clear:-1},decor:{clock:2,rug:1,plant:-1},products:{"不撒谎的镜子":-2,"水面鞋":1}},
+  "贝壳里的男孩":{weather:{rain:1,storm:-2},decor:{cat:2,teaset:1,clock:-1},products:{"回声口琴":2,"不融冰":1}},
+  "北斗船长":{weather:{clear:2,fog:-2},decor:{clock:2,rug:2,plant:-1},products:{"星图罗盘":2,"月文字帖":1}},
+  "沙海商人萨曼":{weather:{clear:-1,storm:2},decor:{teaset:2,rug:1,lamp:-1},products:{"不融冰":2,"雨天火柴":1}},
+  "候鸟邮差":{weather:{wind:2,storm:-2},decor:{plant:2,cat:1,clock:-1},products:{"归巢铃":2,"捕风瓶":1}},
+  "失眠的云":{weather:{fog:2,clear:-1},decor:{teaset:2,rug:2,clock:-2},products:{"借梦枕":2,"雨天火柴":1}},
+  "衔火的蛾":{weather:{clear:1,rain:-2},decor:{lamp:2,plant:1,cat:-1},products:{"记忆蜡烛":2,"雨天火柴":-2}},
+  "苔藓爷爷":{weather:{rain:2,clear:-1},decor:{plant:2,teaset:1,clock:-2},products:{"慢时喷壶":2,"不融冰":-1}},
+  "河流的女儿":{weather:{rain:2,storm:1},decor:{plant:1,rug:1,cat:-1},products:{"逆流梳":2,"不融冰":-1}},
+  "最后一颗星":{weather:{clear:2,fog:-1},decor:{lamp:2,rug:2,clock:-1},products:{"黎明信封":2,"月文字帖":1}},
+  "月亮抄写员":{weather:{clear:2,storm:-1},decor:{lamp:1,clock:2,cat:-1},products:{"月文字帖":2,"不撒谎的镜子":1}},
+  "彗星厨师":{weather:{clear:2,rain:-2},decor:{teaset:2,lamp:1,plant:-1},products:{"星火盐罐":2,"不融冰":-1}},
+  "黄昏占卜师":{weather:{fog:2,clear:-1},decor:{rug:2,clock:2,cat:1},products:{"黄昏骰子":2,"不撒谎的镜子":1}}
+};
