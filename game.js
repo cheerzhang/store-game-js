@@ -6,7 +6,51 @@ const CHAPTERS=[
  {id:5,start:29,name:"门铃响了两次",note:"屋檐上的风向针开始预告明日天气"},
  {id:6,start:36,name:"没有寄件人的信",note:"打烊后可以为明日调整柜台展示"},
  {id:7,start:43,name:"雨水记得名字",note:"预报里开始浮现可能来访的身影"},
- {id:8,start:50,name:"影子来买东西",note:"熟悉的客人终于让你读懂他们的喜恶"}
+ {id:8,start:50,name:"影子来买东西",note:"熟悉的客人终于让你读懂他们的喜恶"},
+ {id:9,start:57,name:"被遗忘的橱窗",note:"雾里有一扇橱窗，映出的却不是现在的店"},
+ {id:10,start:64,name:"上一任店主",note:"旧账本的夹页里，出现了上一任店主留下的名字"},
+ {id:11,start:71,name:"倒着开放的花",note:"一朵从黄昏向清晨开放的花被送到门前"},
+ {id:12,start:78,name:"春天最后的委托",note:"春季将尽，一份来得太迟的委托仍在等待答复"},
+ {id:13,start:85,name:"春末灯市",note:"迟灯巷挂起成排纸灯，街道比往常热闹了一夜"},
+ {id:14,start:92,name:"不肯落下的太阳",note:"日暮迟迟不来，影子们开始失去回家的方向"},
+ {id:15,start:99,name:"瓶中的海潮",note:"柜台上的玻璃瓶每到夜里便传出潮汐声"},
+ {id:16,start:106,name:"借来的名字",note:"一位客人想赎回那个曾经借给别人的名字"},
+ {id:17,start:113,name:"会做梦的商品",note:"打烊后，货架上的商品开始说起同一个梦"},
+ {id:18,start:120,name:"第十三把钥匙",note:"钥匙串上多出了一把谁也不记得配过的钥匙"},
+ {id:19,start:127,name:"门后的车站",note:"仓库门后传来汽笛，那里本不该有一座车站"},
+ {id:20,start:134,name:"永远误点的列车",note:"一列从未准点抵达的列车终于亮起了灯"},
+ {id:21,start:141,name:"售票员的账本",note:"账本记录着每位旅人真正想去的地方"},
+ {id:22,start:148,name:"没有终点的旅人",note:"有人带着一张没有终点站的车票来到店里"},
+ {id:23,start:155,name:"太阳的碎屑",note:"金色碎屑从屋檐落下，摸起来仍有余温"},
+ {id:24,start:162,name:"被偷走的黄昏",note:"迟灯巷突然失去了黄昏，只剩白昼与深夜"},
+ {id:25,start:169,name:"站台上的店主",note:"废弃站台尽头，站着一个与你十分相似的人"},
+ {id:26,start:176,name:"夏末长昼祭",note:"长昼结束前，巷里的居民决定点亮所有灯火"},
+ {id:27,start:183,name:"同一本故事",note:"不同客人带来的故事，竟写在同一本旧书里"},
+ {id:28,start:190,name:"乌鸦的收藏室",note:"阿墨终于邀请你去看那间从不示人的收藏室"},
+ {id:29,start:197,name:"写错的结局",note:"故事的最后一页被人改写，客人们开始忘记归途"},
+ {id:30,start:204,name:"迟到二十年的回信",note:"雨巷邮差带回了一封迟到了整整二十年的回信"},
+ {id:31,start:211,name:"不存在的第六位客人",note:"客簿每到午夜便多出一行无人认识的字迹"},
+ {id:32,start:218,name:"月亮背面的字",note:"满月背面藏着一段只有小店窗户能照见的文字"},
+ {id:33,start:225,name:"店主不能完成的愿望",note:"第一次，有一件商品连你也无法制作"},
+ {id:34,start:232,name:"被交换的记忆",note:"客人们发现彼此记住了不属于自己的往事"},
+ {id:35,start:239,name:"空白的客簿",note:"所有名字在一夜之间从客簿上消失了"},
+ {id:36,start:246,name:"她曾经来过",note:"陌生的笔迹坚持说，有个人其实一直都在这里"},
+ {id:37,start:253,name:"黄昏收藏家",note:"收藏黄昏的人第一次亲自推开了店门"},
+ {id:38,start:260,name:"拒绝出售的代价",note:"有些商品一旦留下，就会向店主索取代价"},
+ {id:39,start:267,name:"秋末无月夜",note:"没有月亮的夜里，迟灯巷的出口悄然关闭"},
+ {id:40,start:274,name:"第一场没有声音的雪",note:"冬雪落下，却吞没了街上所有的声音"},
+ {id:41,start:281,name:"封在冰里的门铃",note:"冰层深处传来一声很久以前的门铃"},
+ {id:42,start:288,name:"星星开始熄灭",note:"夜空中的星辰一颗接一颗失去了光"},
+ {id:43,start:295,name:"上一任店主的房间",note:"第十三把钥匙终于打开了阁楼尽头的房门"},
+ {id:44,start:302,name:"写给小店的委托",note:"这一次，委托单上的客人名字写着迟灯杂货铺"},
+ {id:45,start:309,name:"第四枚灯芯",note:"店灯里藏着一枚从未被点燃过的灯芯"},
+ {id:46,start:316,name:"被归还的商品",note:"售出的商品陆续回到货架，却不再是原来的模样"},
+ {id:47,start:323,name:"五十二个空格",note:"旧账本留下五十二个空格，正等待被逐一填满"},
+ {id:48,start:330,name:"黄昏收藏家的愿望",note:"收藏家愿用所有黄昏交换一个平凡的明天"},
+ {id:49,start:337,name:"世界遗忘迟灯巷",note:"巷外的人不再记得这里曾有一间奇怪的小店"},
+ {id:50,start:344,name:"今夜不做生意",note:"你第一次挂起歇业牌，只为认真听完一个故事"},
+ {id:51,start:351,name:"最后一位客人",note:"门铃在深夜响起，一位等待许久的客人站在门外"},
+ {id:52,start:358,name:"灯亮到明天",note:"最后一页写完了，但迟灯杂货铺仍会在明天亮灯"}
 ];
 const LEGACY_VISIT_RULES={
  "栗尾先生":[{favor:0,weekday:[3],label:"每周三"},{favor:4,season:["summer"],label:"好感 4：夏季也会来"}],
@@ -113,7 +157,7 @@ function renderWeatherEffect(cal){const layer=document.querySelector("#weatherLa
 function render(){
  const c=dailyCustomer(),rel=relation(c.name),needed=requestAmount(c),has=count(c.item)>=needed,craftable=canCraft(c.item),cal=calendar();
  const chapter=currentChapter(),next=CHAPTERS.find(x=>x.id===chapter.id+1),span=next?next.start-chapter.start:7,progress=next?Math.min(100,((state.day-chapter.start+1)/span)*100):100;
- document.querySelector("#chapterBadge").textContent=`第${chapterLabel(chapter.id)}章`;document.querySelector("#chapterName").textContent=`第${chapterLabel(chapter.id)}章 · ${chapter.name}`;document.querySelector("#chapterHint").textContent=next?`距离「${next.name}」还有 ${next.start-state.day} 天`:"第一幕已经展开 · 故事仍会继续";document.querySelector("#chapterProgress").style.width=`${progress}%`;renderWeatherEffect(cal);renderUnlocks();
+ document.querySelector("#chapterBadge").textContent=`第${chapterLabel(chapter.id)}章`;document.querySelector("#chapterName").textContent=`第${chapterLabel(chapter.id)}章 · ${chapter.name}`;document.querySelector("#chapterHint").textContent=next?`距离「${next.name}」还有 ${next.start-state.day} 天`:"年度故事已经写完 · 小店仍会逐日营业";document.querySelector("#chapterProgress").style.width=`${progress}%`;renderWeatherEffect(cal);renderUnlocks();
  document.querySelector("#dayNumber").textContent=state.day;document.querySelector("#coinCount").textContent=state.coins;document.querySelector(".moon").textContent=cal.phaseIcon;document.querySelector("#calendarMoon").textContent=cal.phaseIcon;document.querySelector("#moonName").textContent=`${cal.phaseName} · 第 ${cal.moonDay} 夜`;document.querySelector("#seasonIcon").textContent={spring:"🌱",summer:"☀",autumn:"🍂",winter:"❄"}[cal.season];document.querySelector("#seasonName").textContent=cal.seasonName;document.querySelector("#monthName").textContent=`${cal.seasonName[0]}${["一","二","三"][cal.monthInSeason-1]}月`;document.querySelector("#weekdayName").textContent=`星期${["一","二","三","四","五","六","日"][cal.weekday-1]}`;document.querySelector("#weatherIcon").textContent=state.weather.icon;document.querySelector("#weatherName").textContent=state.weather.name;document.querySelector("#calendarRibbon").dataset.season=cal.season;document.querySelector("#calendarRibbon").dataset.weather=state.weather.id;document.querySelector("#calendarDate").textContent=`第 ${cal.year} 年 · 第 ${cal.month} 月`;document.querySelector("#dailyDropList").innerHTML=state.dailyDrops.map((d,i)=>`<span style="--i:${i}"><b>${MATERIALS[d.name].icon}</b>${d.name}<small>+${d.amount}</small></span>`).join("");document.querySelector("#windowMoon").textContent=cal.phaseIcon;document.querySelector("#windowSky").textContent=`${cal.seasonName} · ${cal.phaseName} · ${state.weather.name}`;document.querySelector("#room").dataset.season=cal.season;
  document.querySelector("#portraitImage").src=c.portrait;document.querySelector("#portraitImage").alt=c.name;document.querySelector("#customerKind").textContent=c.kind;document.querySelector("#customerName").textContent=c.name;document.querySelector("#customerTrait").textContent=c.trait;document.querySelector("#customerStory").textContent=c.story;document.querySelector("#requestedItem").textContent=`${c.item} × ${needed}`;document.querySelector("#paymentOffer").textContent=rewardLabel(c);document.querySelector("#currentFavor").textContent=rel.favor;document.querySelector("#favorHearts").innerHTML=Array.from({length:5},(_,i)=>`<i class="${rel.favor>=i*2+2?"full":rel.favor===i*2+1?"half":"empty"}"></i>`).join("");
  document.querySelector("#availabilityText").textContent=has?`库存足够 · 拥有 ${count(c.item)} / 需要 ${needed}`:craftable?`还差 ${needed-count(c.item)} 件，可以继续制作`:`库存 ${count(c.item)} / ${needed}，材料也不足`;document.querySelector(".dot").style.background=has?"#64715d":craftable?"#c79346":"#a5402d";document.querySelector("#sellButton").disabled=!has||state.resolved;document.querySelector("#craftButton").disabled=!craftable||has||state.resolved;document.querySelector("#refuseButton").disabled=state.resolved;document.querySelector("#craftCost").innerHTML=`<small>${Object.entries(ITEMS[c.item].recipe).map(([n,q])=>`${n}×${q}`).join(" · ")}</small>`;
