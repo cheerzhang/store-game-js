@@ -111,3 +111,17 @@ window.VISITOR_TRADE_STYLES = {
   "失眠的云":"both","衔火的蛾":"both","最后一颗星":"both","彗星厨师":"both"
 };
 window.GAME_VISITORS.forEach(visitor=>visitor.tradeStyle=window.VISITOR_TRADE_STYLES[visitor.name]||"payment");
+
+/*
+ * 雇佣配置。weeklySalary 是每 7 天预付一次的周薪；vacationMonth 是每年固定休假月，
+ * vacationWeek 是该月实际离店的一周。休假月整月不能辞退。
+ */
+window.VISITOR_EMPLOYMENT = Object.fromEntries(window.GAME_VISITORS.map((visitor,index)=>[
+  visitor.name,
+  {
+    weeklySalary:6+(index%6)*2+Math.floor(index/6),
+    vacationMonth:index%12+1,
+    vacationWeek:index%4+1,
+    resumeChance:.32+(index%4)*.06
+  }
+]));

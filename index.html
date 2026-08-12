@@ -10,7 +10,7 @@
   <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/game-icon-192.png">
   <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
   <title>迟灯杂货铺</title>
-  <link rel="stylesheet" href="styles.css?v=41">
+  <link rel="stylesheet" href="styles.css?v=42">
 </head>
 <body>
   <div class="grain" aria-hidden="true"></div>
@@ -41,13 +41,12 @@
       <section class="decision-panel"><div class="availability"><span class="dot"></span><span id="availabilityText">检查货架中…</span></div><div class="actions"><button class="button primary" id="sellButton">卖给客人 <span>→</span></button><button class="button craft" id="craftButton">制作 <span id="craftCost"></span></button><button class="button ghost" id="refuseButton">婉言拒绝</button></div></section>
       <section class="daily-drops"><div><p class="eyebrow">清晨拾获</p><strong>今日掉落</strong></div><div class="drop-list" id="dailyDropList"></div></section>
       <details class="quick-inventory"><summary><span><small>店内速览</small><strong>看看店里有什么</strong></span><span class="summary-count" id="quickInventoryCount">0 件库存</span></summary><div id="quickInventory"></div></details>
-      <aside class="closing-bar" id="closingBar" hidden><div><small>客人已经离开</small><strong>今晚的布置完成了吗？</strong></div><span>确认后将进入明天，陈设和展示品会从新的一天开始生效。</span><button class="button primary" id="endDayButton">布置完成，结束一天 →</button></aside>
       <button class="text-button reset home-reset" id="resetButton">清空本地数据，重新开店</button>
     </section>
 
     <section class="game-page" id="page-inventory">
       <div class="page-title"><p class="eyebrow">店内一览</p><h1>货架与材料</h1><p>每件东西都有自己的脾气。材料会在每天清晨悄悄出现。</p></div>
-      <section class="display-shelf" id="displayShelf"><div><p class="eyebrow">柜台展示</p><strong>最多摆出 3 件成品</strong><small id="displayShelfHint">客人离开后才能调整明日陈列</small></div><div id="displayedProducts"></div></section>
+      <section class="display-shelf" id="displayShelf"><div><p class="eyebrow">明日柜台</p><strong>最多摆出 3 件成品</strong><small id="displayShelfHint">随时调整，下一天开始生效</small></div><div id="displayedProducts"></div></section>
       <div class="shelf-grid" id="inventoryGrid"></div>
     </section>
 
@@ -61,6 +60,7 @@
       <div class="room" id="room"><div class="ceiling-beam"></div><div class="room-window"><span id="windowMoon">🌑</span><small id="windowSky">春季 · 新月</small></div><div class="wall-frames"><i>✦</i><i>?</i></div><div class="room-shelves"><span>◈</span><span>♢</span><span>◉</span><span>△</span><span>✧</span><span>▱</span></div><div class="room-counter"><span>迟灯杂货</span><small>ODDMENTS</small></div><div class="floor-lines"></div><div class="decor-layer" id="decorLayer"></div></div>
       <div class="section-heading decor-heading"><div><p class="eyebrow">可添置</p><h2>陈设目录</h2></div><span class="catalog-note" id="decorStatus">购买后可以随时摆出或收起</span></div>
       <div class="decor-grid" id="decorGrid"></div>
+      <section class="staff-section"><div class="section-heading"><div><p class="eyebrow">SHOP STAFF</p><h2>店员与简历</h2></div><span class="catalog-note" id="staffStatus">最多雇佣 2 位店员</span></div><div class="staff-grid" id="staffGrid"></div></section>
     </section>
 
     <section class="game-page" id="page-forecast">
@@ -81,10 +81,10 @@
   </main>
 
   <footer><span>营业时间：日落之后 — 梦醒之前</span><span>所有故事仅保存在这台设备上</span></footer>
-  <dialog id="resultDialog"><div class="dialog-inner"><span class="dialog-icon" id="dialogIcon">✦</span><p class="eyebrow" id="dialogLabel"></p><h2 id="dialogTitle"></h2><p id="dialogText"></p><button class="button primary" id="nextDayButton">开始打烊布置 <span>→</span></button></div></dialog>
+  <dialog id="resultDialog"><div class="dialog-inner"><span class="dialog-icon" id="dialogIcon">✦</span><p class="eyebrow" id="dialogLabel"></p><h2 id="dialogTitle"></h2><p id="dialogText"></p><button class="button primary" id="nextDayButton">继续到下一天 <span>→</span></button></div></dialog>
   <dialog id="noticeDialog"><div class="dialog-inner"><span class="dialog-icon">✦</span><p class="eyebrow" id="noticeLabel">店铺陈设</p><h2 id="noticeTitle"></h2><p id="noticeText"></p><button class="button primary" id="noticeClose">知道了</button></div></dialog>
   <script src="data/items.js?v=40"></script>
-  <script src="data/visitors.js?v=40"></script>
-  <script src="game.js?v=41"></script>
+  <script src="data/visitors.js?v=42"></script>
+  <script src="game.js?v=42"></script>
 </body>
 </html>
