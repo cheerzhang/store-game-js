@@ -10,7 +10,7 @@
   <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/game-icon-192.png">
   <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
   <title>迟灯杂货铺</title>
-  <link rel="stylesheet" href="styles.css?v=46">
+  <link rel="stylesheet" href="styles.css?v=51">
 </head>
 <body>
   <div class="grain" aria-hidden="true"></div>
@@ -30,9 +30,10 @@
   <main>
     <section class="game-page active" id="page-visitor">
       <div class="weather-layer" id="weatherLayer" aria-hidden="true"></div>
+      <section class="weekly-summary-page" id="weeklySummaryPage" hidden><div class="weekly-summary-card"><p class="eyebrow">WEEKLY PAYROLL</p><h2 id="weeklySummaryTitle">本周工资结算</h2><p id="weeklySummaryIntro"></p><div class="weekly-staff-list" id="weeklyStaffList"></div><button class="button primary" id="weeklySummaryClose">确认账目，开始本周 →</button></div></section>
       <div class="page-hero"><div><p class="eyebrow">今晚营业中</p><h1>门铃只为<br><em>有缘人</em>响起。</h1></div><div><p class="lede">每天，一件怪东西会出现在柜台上。每天，一位客人带着一个不能告诉别人的愿望推门而入。</p><div class="chapter-progress"><div><span id="chapterName">第一章 · 初燃的灯</span><small id="chapterHint">距离下一章还有 7 天</small></div><div class="chapter-track"><i id="chapterProgress"></i></div></div></div></div>
       <section class="calendar-ribbon" id="calendarRibbon" aria-label="迟灯历"><div class="moon-cell"><span class="calendar-moon" id="calendarMoon">🌑</span><strong id="moonName">新月</strong></div><div><span class="calendar-symbol" id="seasonIcon">🌱</span><small>季节</small><strong id="seasonName">春季</strong></div><div><span class="calendar-symbol">◫</span><small>月份</small><strong id="monthName">春一月</strong></div><div><span class="calendar-symbol">✦</span><small>星期</small><strong id="weekdayName">星期一</strong></div><div><span class="calendar-symbol" id="weatherIcon">🌧️</span><small>天气</small><strong id="weatherName">细雨</strong></div><div class="calendar-note"><small>迟灯历</small><strong id="calendarDate">第 1 年 · 第 1 月</strong></div></section>
-      <section class="visitor-forecast"><div class="forecast-heading"><div><p class="eyebrow">今夜门铃</p><strong>可能来访的客人</strong></div><span id="forecastCount">0 位符合条件 · 最终只会来一位</span></div><div class="forecast-list" id="potentialVisitors"></div></section>
+      <section class="visitor-forecast" id="visitorDraw"><div class="forecast-heading"><div><p class="eyebrow">今夜门铃</p><strong>可能来访的客人</strong></div><span id="forecastCount">0 位符合条件 · 最终只会来一位</span></div><div class="forecast-list" id="potentialVisitors"></div><div class="draw-controls" id="drawControls"><p>牌已经洗好。挑一张你有感觉的牌，亲手翻开今夜的来客。</p><span>点击任意问号牌 ✦</span></div></section>
       <section class="counter" aria-label="今日来客">
         <div class="customer-card"><div class="portrait"><img id="portraitImage" src="assets/visitors/mr-chestnuttail.png" alt="栗尾先生"></div><div class="customer-meta"><span class="tag" id="customerKind">兽客</span><h2 id="customerName">栗尾先生</h2><p id="customerTrait"></p><div class="favor-inline">好感 <b id="currentFavor">0</b> <span id="favorHearts">♡♡♡♡♡</span></div></div></div>
         <div class="story-card"><span class="quote-mark">“</span><p id="customerStory"></p><div class="request"><span>想要</span><strong id="requestedItem"></strong></div><div class="payment"><span>愿意支付</span><strong id="paymentOffer"></strong></div></div>
@@ -60,7 +61,7 @@
       <div class="room" id="room"><div class="ceiling-beam"></div><div class="room-window"><span id="windowMoon">🌑</span><small id="windowSky">春季 · 新月</small></div><div class="wall-frames"><i>✦</i><i>?</i></div><div class="room-shelves"><span>◈</span><span>♢</span><span>◉</span><span>△</span><span>✧</span><span>▱</span></div><div class="room-counter"><span>迟灯杂货</span><small>ODDMENTS</small></div><div class="floor-lines"></div><div class="decor-layer" id="decorLayer"></div></div>
       <div class="section-heading decor-heading"><div><p class="eyebrow">可添置</p><h2>陈设目录</h2></div><span class="catalog-note" id="decorStatus">购买后可以随时摆出或收起</span></div>
       <div class="decor-grid" id="decorGrid"></div>
-      <section class="staff-section"><div class="section-heading"><div><p class="eyebrow">SHOP STAFF</p><h2>店员与简历</h2></div><span class="catalog-note" id="staffStatus">最多雇佣 2 位店员</span></div><div class="staff-grid" id="staffGrid"></div></section>
+      <section class="staff-section"><div class="section-heading"><div><p class="eyebrow">SHOP STAFF</p><h2>店员与简历</h2></div><span class="catalog-note" id="staffStatus">最多雇佣 3 位店员</span></div><div class="staff-grid" id="staffGrid"></div></section>
     </section>
 
     <section class="game-page" id="page-forecast">
@@ -84,7 +85,7 @@
   <dialog id="resultDialog"><div class="dialog-inner"><span class="dialog-icon" id="dialogIcon">✦</span><p class="eyebrow" id="dialogLabel"></p><h2 id="dialogTitle"></h2><p id="dialogText"></p><button class="button primary" id="nextDayButton">继续到下一天 <span>→</span></button></div></dialog>
   <dialog id="noticeDialog"><div class="dialog-inner"><span class="dialog-icon">✦</span><p class="eyebrow" id="noticeLabel">店铺陈设</p><h2 id="noticeTitle"></h2><p id="noticeText"></p><button class="button primary" id="noticeClose">知道了</button></div></dialog>
   <script src="data/items.js?v=40"></script>
-  <script src="data/visitors.js?v=44"></script>
-  <script src="game.js?v=46"></script>
+  <script src="data/visitors.js?v=52"></script>
+  <script src="game.js?v=52"></script>
 </body>
 </html>
