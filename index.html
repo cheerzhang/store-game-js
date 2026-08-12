@@ -10,7 +10,7 @@
   <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/game-icon-192.png">
   <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
   <title>迟灯杂货铺</title>
-  <link rel="stylesheet" href="styles.css?v=42">
+  <link rel="stylesheet" href="styles.css?v=46">
 </head>
 <body>
   <div class="grain" aria-hidden="true"></div>
@@ -38,7 +38,7 @@
         <div class="story-card"><span class="quote-mark">“</span><p id="customerStory"></p><div class="request"><span>想要</span><strong id="requestedItem"></strong></div><div class="payment"><span>愿意支付</span><strong id="paymentOffer"></strong></div></div>
       </section>
       <section class="mood-panel"><div><p class="eyebrow">今日心情</p><strong id="moodTitle">正在观察店里…</strong></div><div class="mood-effects" id="moodEffects"></div></section>
-      <section class="decision-panel"><div class="availability"><span class="dot"></span><span id="availabilityText">检查货架中…</span></div><div class="actions"><button class="button primary" id="sellButton">卖给客人 <span>→</span></button><button class="button craft" id="craftButton">制作 <span id="craftCost"></span></button><button class="button ghost" id="refuseButton">婉言拒绝</button></div></section>
+      <section class="decision-panel"><div class="availability"><span class="dot"></span><span id="availabilityText">检查货架中…</span></div><div class="actions"><button class="button hire" id="hireButton" hidden>支付周薪并录用</button><button class="button primary" id="sellButton">卖给客人 <span>→</span></button><button class="button craft" id="craftButton">制作 <span id="craftCost"></span></button><button class="button ghost" id="refuseButton">婉言拒绝</button></div></section>
       <section class="daily-drops"><div><p class="eyebrow">清晨拾获</p><strong>今日掉落</strong></div><div class="drop-list" id="dailyDropList"></div></section>
       <details class="quick-inventory"><summary><span><small>店内速览</small><strong>看看店里有什么</strong></span><span class="summary-count" id="quickInventoryCount">0 件库存</span></summary><div id="quickInventory"></div></details>
       <button class="text-button reset home-reset" id="resetButton">清空本地数据，重新开店</button>
@@ -84,7 +84,7 @@
   <dialog id="resultDialog"><div class="dialog-inner"><span class="dialog-icon" id="dialogIcon">✦</span><p class="eyebrow" id="dialogLabel"></p><h2 id="dialogTitle"></h2><p id="dialogText"></p><button class="button primary" id="nextDayButton">继续到下一天 <span>→</span></button></div></dialog>
   <dialog id="noticeDialog"><div class="dialog-inner"><span class="dialog-icon">✦</span><p class="eyebrow" id="noticeLabel">店铺陈设</p><h2 id="noticeTitle"></h2><p id="noticeText"></p><button class="button primary" id="noticeClose">知道了</button></div></dialog>
   <script src="data/items.js?v=40"></script>
-  <script src="data/visitors.js?v=42"></script>
-  <script src="game.js?v=42"></script>
+  <script src="data/visitors.js?v=44"></script>
+  <script src="game.js?v=46"></script>
 </body>
 </html>

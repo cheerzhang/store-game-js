@@ -113,13 +113,16 @@ window.VISITOR_TRADE_STYLES = {
 window.GAME_VISITORS.forEach(visitor=>visitor.tradeStyle=window.VISITOR_TRADE_STYLES[visitor.name]||"payment");
 
 /*
- * 雇佣配置。weeklySalary 是每 7 天预付一次的周薪；vacationMonth 是每年固定休假月，
- * vacationWeek 是该月实际离店的一周。休假月整月不能辞退。
+ * 雇佣配置。wage 是每 7 天预付一次的周薪（铜币或材料）；vacationMonth 是每年固定休假月，
+ * vacationWeek 是该月实际离店的一周。休假周所在的整个月不能辞退。
  */
+const EMPLOYEE_WAGE_ITEMS=["月光碎片","空玻璃瓶","银线","旧木片","萤火粉","铜齿轮","夜鸦羽毛","雾盐","星砂","记忆蜡","回声贝壳","春露"];
 window.VISITOR_EMPLOYMENT = Object.fromEntries(window.GAME_VISITORS.map((visitor,index)=>[
   visitor.name,
   {
-    weeklySalary:6+(index%6)*2+Math.floor(index/6),
+    wage:index%3===0
+      ?{type:"coins",amount:6+(index%6)*2+Math.floor(index/6)}
+      :{type:"item",item:EMPLOYEE_WAGE_ITEMS[index%EMPLOYEE_WAGE_ITEMS.length],amount:1+(index%3)},
     vacationMonth:index%12+1,
     vacationWeek:index%4+1,
     resumeChance:.32+(index%4)*.06
