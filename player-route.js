@@ -10,7 +10,7 @@ travelAndGather = async function(locationId) {
   if (route.length) await walkMapRoute(route);
 
   const pool = gatherPool(locationId), found = [], awarded = [], items = [];
-  if (pool.length && Math.random() >= .12) {
+  if (pool.length) {
     const first = weightedPick(pool.map(rule => ({rule, weight: rule.weight}))).rule;
     found.push(first);
     for (const rule of pool) {
@@ -24,6 +24,7 @@ travelAndGather = async function(locationId) {
     awarded.push(`${rule.item}×${amount}`);
     items.push({name:rule.item, amount});
   }
+  settleVacationDebt();
   await playGatherEffect(location, found);
   state.playerLocation = locationId;
   const text = found.length ? `在${location.name}找到${awarded.join("、")}。` : `在${location.name}寻找了一阵，但这时的环境没有留下材料。`;

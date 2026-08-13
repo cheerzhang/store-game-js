@@ -71,16 +71,15 @@ window.GATHER_RULES.push(
   {item:"瓦登星砂",location:"coast",times:["late"],weight:3,rarity:"稀有",hint:"全年深夜 · 特殊月相与天气更常见"}
 );
 
-/* 各地区的日常拾取物：让大多数“地点 × 时段”都有基础收获，同时保留约 12% 落空。 */
-const ALL_DAY_SLOTS = ["morning","noon","afternoon","evening","late"];
+/* 各地区的日常拾取物：覆盖大多数时段；少量明确空档留给环境材料填补。 */
 [
-  ["mill","风车旧木片",22,"风车墙角的日常碎料"],
-  ["river","运河玻璃瓶",22,"河岸冲来的日常漂流物"],
-  ["polder","寒鸦羽毛",20,"田埂间留下的寻常羽毛"],
-  ["farm","风车旧木片",24,"谷仓附近的日常木料"],
-  ["coast","瓦登海回声贝",18,"潮线上的寻常贝壳"],
-  ["forest","琥珀郁金香球茎",16,"林地土层里的小球茎"]
-].forEach(([location,item,weight,hint])=>GATHER_RULES.push({item,location,times:ALL_DAY_SLOTS,weight,rarity:"常见",hint:`全天 · ${hint}`,fallback:true}));
+  ["mill","风车旧木片",["noon","afternoon","evening","late"],22,"除清晨外 · 风车墙角的日常碎料"],
+  ["river","运河玻璃瓶",["morning","afternoon","evening","late"],22,"除中午外 · 河岸冲来的日常漂流物"],
+  ["polder","寒鸦羽毛",["morning","noon","afternoon","evening"],20,"白天至傍晚 · 田埂间的寻常羽毛"],
+  ["farm","风车旧木片",["morning","noon","afternoon","evening"],24,"深夜前 · 谷仓附近的日常木料"],
+  ["coast","瓦登海回声贝",["morning","noon","evening","late"],18,"除下午外 · 潮线上的寻常贝壳"],
+  ["forest","琥珀郁金香球茎",["morning","afternoon","evening","late"],16,"除中午外 · 林地土层里的小球茎"]
+].forEach(([location,item,times,weight,hint])=>GATHER_RULES.push({item,location,times,weight,rarity:"常见",hint,fallback:true}));
 
 window.VISITOR_TIME_WEIGHTS = {
   human:{morning:1.25,noon:1.35,afternoon:1.25,evening:.8,late:.35},
