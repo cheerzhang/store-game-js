@@ -27,6 +27,14 @@ window.MAP_ROUTES = {
   mill:[[50,50],[46,43],[50,37],[44,32],[47,27],[37,25],[36,20],[24,16]]
 };
 
+/* 地区之间的支路。玩家与员工都只能沿这些蓝色道路移动。 */
+window.MAP_LINKS = [
+  {from:"mill",to:"river",points:[[24,16],[18,22],[20,29],[15,35],[19,42],[16,50]]},
+  {from:"river",to:"forest",points:[[16,50],[20,57],[17,64],[23,70],[20,77],[24,84]]},
+  {from:"polder",to:"farm",points:[[76,16],[82,22],[79,29],[85,35],[81,42],[84,50]]},
+  {from:"farm",to:"coast",points:[[84,50],[80,57],[83,64],[77,70],[80,77],[76,84]]}
+];
+
 /* weight 是基础出现权重；条件符合时才进入本时段采集池。 */
 window.GATHER_RULES = [
   {item:"运河玻璃瓶",location:"farm",times:["morning","noon","afternoon"],weight:34,rarity:"常见",hint:"白天 · 谷仓杂物间"},
@@ -62,6 +70,17 @@ window.GATHER_RULES.push(
   {item:"山墙影尘",location:"mill",times:["late"],weight:5,rarity:"稀有",hint:"全年深夜 · 新月与亏月更常见"},
   {item:"瓦登星砂",location:"coast",times:["late"],weight:3,rarity:"稀有",hint:"全年深夜 · 特殊月相与天气更常见"}
 );
+
+/* 各地区的日常拾取物：让大多数“地点 × 时段”都有基础收获，同时保留约 12% 落空。 */
+const ALL_DAY_SLOTS = ["morning","noon","afternoon","evening","late"];
+[
+  ["mill","风车旧木片",22,"风车墙角的日常碎料"],
+  ["river","运河玻璃瓶",22,"河岸冲来的日常漂流物"],
+  ["polder","寒鸦羽毛",20,"田埂间留下的寻常羽毛"],
+  ["farm","风车旧木片",24,"谷仓附近的日常木料"],
+  ["coast","瓦登海回声贝",18,"潮线上的寻常贝壳"],
+  ["forest","琥珀郁金香球茎",16,"林地土层里的小球茎"]
+].forEach(([location,item,weight,hint])=>GATHER_RULES.push({item,location,times:ALL_DAY_SLOTS,weight,rarity:"常见",hint:`全天 · ${hint}`,fallback:true}));
 
 window.VISITOR_TIME_WEIGHTS = {
   human:{morning:1.25,noon:1.35,afternoon:1.25,evening:.8,late:.35},
