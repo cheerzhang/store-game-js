@@ -10,7 +10,7 @@
   <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/game-icon-192.png">
   <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
   <title>迟灯杂货铺</title>
-  <link rel="stylesheet" href="styles.css?v=71">
+  <link rel="stylesheet" href="styles.css?v=75">
 </head>
 <body>
   <div class="grain" aria-hidden="true"></div>
@@ -19,7 +19,6 @@
     <nav class="main-nav" aria-label="店铺导航">
       <button class="nav-link active" data-page="visitor">来客</button>
       <button class="nav-link" data-page="inventory">货架</button>
-      <button class="nav-link" data-page="ledger">客簿</button>
       <button class="nav-link" data-page="log">日志</button>
     </nav>
     <div class="status-row"><span id="chapterBadge">第一章</span><span>第 <b id="dayNumber">1</b> 日</span><span class="moon">◐</span><span><b id="coinCount">12</b> 枚铜币</span></div>
@@ -34,8 +33,9 @@
       <section class="calendar-ribbon" id="calendarRibbon" aria-label="迟灯历"><div class="moon-cell"><span class="calendar-moon" id="calendarMoon">🌑</span><strong id="moonName">新月</strong></div><div><span class="calendar-symbol" id="seasonIcon">🌱</span><small>季节</small><strong id="seasonName">春季</strong></div><div><span class="calendar-symbol">◫</span><small>月份</small><strong id="monthName">春一月</strong></div><div><span class="calendar-symbol">✦</span><small>星期</small><strong id="weekdayName">星期一</strong></div><div><span class="calendar-symbol" id="weatherIcon">🌧️</span><small>当前天气</small><strong id="weatherName">细雨</strong></div><div class="calendar-forecast-entry" id="forecastEntry" role="button" tabindex="0"><span class="calendar-symbol">◉</span><small>天气预报</small><strong id="forecastEntryHint">第五章解锁</strong></div><div class="calendar-note"><small>迟灯历</small><strong id="calendarDate">第 1 年 · 第 1 月</strong></div></section>
       <section class="time-planner"><div class="time-track" id="timeTrack"></div><div class="time-copy"><p class="eyebrow">CURRENT PERIOD</p><strong id="currentTimeName">早上</strong><span id="timeInstruction">选择留店营业，或去一个地点采集。</span></div></section>
       <section class="world-map" id="worldMap" aria-label="低地探索地图"><div class="map-sky"></div><svg class="map-routes" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><g id="mapRoutePaths"></g></svg><div class="map-avatar" id="mapAvatar"><i></i><b></b></div><div class="map-employees" id="mapEmployees" aria-label="地图上的店员"></div><div class="gather-effects" id="gatherEffects" aria-hidden="true"></div><div id="mapLocations"></div><div class="map-legend"><span><i class="rarity-dot common"></i>常见</span><span><i class="rarity-dot uncommon"></i>少见</span><span><i class="rarity-dot rare"></i>稀有</span></div></section>
+      <div class="home-shortcuts"><button class="ledger-entry" id="ledgerEntry"><span>📖</span><span><small>来客记录</small><strong>打开客簿</strong></span><b>→</b></button></div>
       <section class="period-result" id="periodResult"><span>✦</span><div><p class="eyebrow">本时段记录</p><strong>清晨的地图刚刚展开</strong><small>选择一个地点开始行动。</small></div></section>
-      <section class="visitor-forecast" id="visitorDraw"><div class="forecast-heading"><div><p class="eyebrow">本时段门铃</p><strong>系统会依环境自动选择来客</strong></div><span id="forecastCount">营业时才会响起</span></div><div class="forecast-list" id="potentialVisitors"></div><div class="draw-controls" id="drawControls"><p>不再需要翻牌。来客会受到时段、季节、天气、月相、装修和好感共同影响。</p><span>自动来访 ✦</span></div></section>
+      <section class="visitor-forecast" id="visitorDraw"><div class="forecast-heading"><div><p class="eyebrow">本时段门铃</p><strong>系统会依环境自动选择来客</strong></div><div class="forecast-heading-actions"><span id="forecastCount">营业时才会响起</span></div></div><div class="forecast-list" id="potentialVisitors"></div><div class="draw-controls" id="drawControls"><p>不再需要翻牌。来客会受到时段、季节、天气、月相、装修和好感共同影响。</p><span>自动来访 ✦</span></div></section>
       <section class="counter" id="visitorCounter" aria-label="当前来客">
         <div class="customer-card"><div class="portrait"><img id="portraitImage" src="assets/visitors/mr-chestnuttail.png" alt="栗尾先生"></div><div class="customer-meta"><span class="tag" id="customerKind">兽客</span><h2 id="customerName">栗尾先生</h2><p id="customerTrait"></p><div class="favor-inline">好感 <b id="currentFavor">0</b> <span id="favorHearts">♡♡♡♡♡</span></div></div></div>
         <div class="story-card"><span class="quote-mark">“</span><p id="customerStory"></p><div class="request"><span>想要</span><strong id="requestedItem"></strong></div><div class="payment"><span>愿意支付</span><strong id="paymentOffer"></strong></div></div>
@@ -54,7 +54,7 @@
     </section>
 
     <section class="game-page" id="page-ledger">
-      <div class="page-title"><p class="eyebrow">来客名录</p><h1>客簿与手记</h1><p>善意会被记住。好感越高，客人越常回来，也越愿意拿出珍贵的报酬。</p></div>
+      <div class="page-title ledger-title"><div><p class="eyebrow">来客名录</p><h1>客簿与手记</h1><p>善意会被记住。好感越高，客人越常回来，也越愿意拿出珍贵的报酬。</p></div><button class="ledger-back" id="ledgerBack">← 返回地图</button></div>
       <div class="relationship-grid" id="relationshipGrid"></div>
     </section>
 
@@ -89,6 +89,6 @@
   <script src="data/items.js?v=60"></script>
   <script src="data/visitors.js?v=73"></script>
   <script src="data/exploration.js?v=67"></script>
-  <script src="game.js?v=73"></script>
+  <script src="game.js?v=75"></script>
 </body>
 </html>
