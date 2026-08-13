@@ -10,7 +10,7 @@
   <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/game-icon-192.png">
   <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
   <title>迟灯杂货铺</title>
-  <link rel="stylesheet" href="styles.css?v=60">
+  <link rel="stylesheet" href="styles.css?v=67">
 </head>
 <body>
   <div class="grain" aria-hidden="true"></div>
@@ -20,7 +20,6 @@
       <button class="nav-link active" data-page="visitor">来客</button>
       <button class="nav-link" data-page="inventory">货架</button>
       <button class="nav-link" data-page="ledger">客簿</button>
-      <button class="nav-link" data-page="shop">店铺</button>
       <button class="nav-link" data-page="forecast">预报</button>
       <button class="nav-link" data-page="log">日志</button>
     </nav>
@@ -35,7 +34,7 @@
       <div class="page-hero"><div><p class="eyebrow">低地的一日</p><h1>开门等故事，<br><em>或出门寻找它。</em></h1></div><div><p class="lede">一天有五个时段。留在小店便会营业；走向河岸、圩田或海边，则会关店并用这段时间寻找材料。</p><div class="chapter-progress"><div><span id="chapterName">第一章 · 初燃的灯</span><small id="chapterHint">距离下一章还有 7 天</small></div><div class="chapter-track"><i id="chapterProgress"></i></div></div></div></div>
       <section class="calendar-ribbon" id="calendarRibbon" aria-label="迟灯历"><div class="moon-cell"><span class="calendar-moon" id="calendarMoon">🌑</span><strong id="moonName">新月</strong></div><div><span class="calendar-symbol" id="seasonIcon">🌱</span><small>季节</small><strong id="seasonName">春季</strong></div><div><span class="calendar-symbol">◫</span><small>月份</small><strong id="monthName">春一月</strong></div><div><span class="calendar-symbol">✦</span><small>星期</small><strong id="weekdayName">星期一</strong></div><div><span class="calendar-symbol" id="weatherIcon">🌧️</span><small>天气</small><strong id="weatherName">细雨</strong></div><div class="calendar-note"><small>迟灯历</small><strong id="calendarDate">第 1 年 · 第 1 月</strong></div></section>
       <section class="time-planner"><div class="time-track" id="timeTrack"></div><div class="time-copy"><p class="eyebrow">CURRENT PERIOD</p><strong id="currentTimeName">早上</strong><span id="timeInstruction">选择留店营业，或去一个地点采集。</span></div></section>
-      <section class="world-map" id="worldMap" aria-label="低地探索地图"><div class="map-sky"></div><svg class="map-routes" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><g id="mapRoutePaths"></g></svg><div class="map-avatar" id="mapAvatar"><i></i><b></b></div><div class="gather-effects" id="gatherEffects" aria-hidden="true"></div><div id="mapLocations"></div><div class="map-legend"><span><i class="rarity-dot common"></i>常见</span><span><i class="rarity-dot uncommon"></i>少见</span><span><i class="rarity-dot rare"></i>稀有</span></div></section>
+      <section class="world-map" id="worldMap" aria-label="低地探索地图"><div class="map-sky"></div><svg class="map-routes" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><g id="mapRoutePaths"></g></svg><div class="map-avatar" id="mapAvatar"><i></i><b></b></div><div class="map-employees" id="mapEmployees" aria-label="地图上的店员"></div><div class="gather-effects" id="gatherEffects" aria-hidden="true"></div><div id="mapLocations"></div><div class="map-legend"><span><i class="rarity-dot common"></i>常见</span><span><i class="rarity-dot uncommon"></i>少见</span><span><i class="rarity-dot rare"></i>稀有</span></div></section>
       <section class="period-result" id="periodResult"><span>✦</span><div><p class="eyebrow">本时段记录</p><strong>清晨的地图刚刚展开</strong><small>选择一个地点开始行动。</small></div></section>
       <section class="visitor-forecast" id="visitorDraw"><div class="forecast-heading"><div><p class="eyebrow">本时段门铃</p><strong>系统会依环境自动选择来客</strong></div><span id="forecastCount">营业时才会响起</span></div><div class="forecast-list" id="potentialVisitors"></div><div class="draw-controls" id="drawControls"><p>不再需要翻牌。来客会受到时段、季节、天气、月相、装修和好感共同影响。</p><span>自动来访 ✦</span></div></section>
       <section class="counter" id="visitorCounter" aria-label="当前来客">
@@ -90,7 +89,7 @@
   <dialog id="noticeDialog"><div class="dialog-inner"><span class="dialog-icon">✦</span><p class="eyebrow" id="noticeLabel">店铺陈设</p><h2 id="noticeTitle"></h2><p id="noticeText"></p><button class="button primary" id="noticeClose">知道了</button></div></dialog>
   <script src="data/items.js?v=60"></script>
   <script src="data/visitors.js?v=60"></script>
-  <script src="data/exploration.js?v=56"></script>
-  <script src="game.js?v=60"></script>
+  <script src="data/exploration.js?v=67"></script>
+  <script src="game.js?v=67"></script>
 </body>
 </html>
