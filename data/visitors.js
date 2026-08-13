@@ -46,7 +46,21 @@ window.GAME_VISITORS = [
   {name:"北海最后一颗星",category:"astral",chapter:3,kind:"星辰 · 将熄之星",icon:"⭐",trait:"它的声音像很远处的玻璃铃",item:"北海黎明信",story:"天亮之后，人们就不会再记得我曾经来过。请替我把这封告别信寄给每一个曾在夜里许愿的人。",pay:{type:"item",amount:3,item:"教堂记忆蜡"},schedule:[{favor:0,season:["winter"],moon:["new"],label:"冬季的新月"},{favor:7,season:["winter"],label:"好感 7：整个冬季"}]},
   {name:"月历抄写员",category:"astral",chapter:3,kind:"星辰 · 月宫抄写员",icon:"🌙",trait:"十根手指都沾着银色墨迹",item:"瓦登潮汐月历",story:"月亮背面有一句写错了三千年的话。今晚轮到我值班，我终于可以偷偷把它改正。",pay:{type:"coins",amount:22,item:null},schedule:[{favor:0,moon:["full"],weather:["clear"],label:"晴朗的满月之夜"},{favor:6,moon:["waxing"],label:"好感 6：盈月期间"}]},
   {name:"焦糖华夫厨师",category:"astral",chapter:3,kind:"星辰 · 焦糖华夫厨师",icon:"☄️",trait:"围裙后拖着一条滚烫的光尾",item:"焦糖华夫星盐罐",story:"我只经过这里一晚，想煮一锅能让行星停下来尝一口的汤。普通盐落进宇宙里就尝不见了。",pay:{type:"item",amount:4,item:"瓦登星砂"},schedule:[{favor:0,month:[3],moon:["waning"],label:"每季第三个月的亏月"},{favor:7,month:[3],label:"好感 7：每季第三个月"}]},
-  {name:"低地晚霞占卜师",category:"astral",chapter:3,kind:"神秘存在 · 占卜师",icon:"🔮",trait:"面纱下像是一片尚未决定的天空",item:"圩田黄昏骰",story:"明天有两个黄昏，一个通向重逢，一个通向永别。我不想预言结果，只想给那个人一次自己选择的机会。",pay:{type:"coins",amount:24,item:null},schedule:[{favor:0,season:["autumn"],moon:["new"],label:"秋季的新月"},{favor:6,weekday:[6],label:"好感 6：周六也会来"}]}
+  {name:"低地晚霞占卜师",category:"astral",chapter:3,kind:"神秘存在 · 占卜师",icon:"🔮",trait:"面纱下像是一片尚未决定的天空",item:"圩田黄昏骰",story:"明天有两个黄昏，一个通向重逢，一个通向永别。我不想预言结果，只想给那个人一次自己选择的机会。",pay:{type:"coins",amount:24,item:null},schedule:[{favor:0,season:["autumn"],moon:["new"],label:"秋季的新月"},{favor:6,weekday:[6],label:"好感 6：周六也会来"}]},
+
+  // 新访客 · 每类 2 位 · 第 4～6 章
+  {name:"诺尔堤坝测量员",category:"human",chapter:4,rarity:"少见",kind:"人类 · 代尔夫兰水务测量员",icon:"📐",trait:"黄铜水准仪里盛着一条笔直的地平线",item:"北海星图罗盘",story:"昨夜海水把堤坝的刻度悄悄挪了一格。我需要一枚不受潮汐欺骗的罗盘，在钟声响起前重新画好安全线。",pay:{type:"item",amount:3,item:"风车铜齿轮"},schedule:[{favor:0,season:["spring","autumn"],weekday:[1,4],label:"春秋的周一、周四"},{favor:5,weather:["rain","storm"],label:"好感 5：雨天或风暴也会来"}]},
+  {name:"彼得郁金香拍卖员",category:"human",chapter:5,rarity:"少见",kind:"人类 · 阿尔斯梅尔花市拍卖员",icon:"🌷",trait:"领结会随着成交钟声变换颜色",item:"郁金香慢时壶",story:"有一株从未被命名的郁金香明早就要开放。我不想让它在第一声报价里匆匆老去，请让花钟慢一点。",pay:{type:"item",amount:3,item:"琥珀郁金香球茎"},schedule:[{favor:0,season:["spring"],label:"春季"},{favor:4,weekday:[2,5],label:"好感 4：周二、周五也会来"}]},
+  {name:"米普荷兰兔",category:"beast",chapter:4,rarity:"常见",kind:"兽客 · 荷兰侏儒兔",icon:"🐇",trait:"蓝白围裙口袋里总有一把干草",item:"郁金香梦扣",story:"谷仓的小兔们一听风车响就会惊醒。我要把一个安稳的午后缝在它们的梦口上。",pay:{type:"item",amount:4,item:"郁金香晨露"},schedule:[{favor:0,weekday:[3,6],label:"每周三、周六"},{favor:4,season:["spring"],label:"好感 4：整个春季"}]},
+  {name:"西约尔德黑尾塍鹬",category:"beast",chapter:5,rarity:"稀有",kind:"兽客 · 黑尾塍鹬",icon:"🐦",trait:"细长鸟喙沾着弗里斯兰湿草地的泥",item:"灰雁归巢铃",story:"圩田越来越安静，返乡的幼鸟听不见旧巢。我想把湿草地的声音挂在迁徙队伍最前面。",pay:{type:"item",amount:3,item:"风车风结"},schedule:[{favor:0,season:["spring"],weather:["rain","wind"],label:"春季雨天或风天"},{favor:0,season:["autumn"],weekday:[7],label:"秋季周日"},{favor:5,weekday:[7],label:"好感 5：任何周日"}]},
+  {name:"莱顿沉钟守夜人",category:"night",chapter:4,rarity:"少见",kind:"夜行人 · 沉钟守夜人",icon:"🔔",trait:"斗篷下传来莱顿旧钟沉入河底的回声",item:"教堂代尔夫特记忆烛",story:"城里有一口没人记得的钟，只在水底报时。我要点亮最后一次钟声，让岸上的人想起它的名字。",pay:{type:"item",amount:3,item:"教堂记忆蜡"},schedule:[{favor:0,weather:["fog"],label:"雾天"},{favor:5,moon:["waning"],label:"好感 5：亏月也会来"}]},
+  {name:"午夜自行车影",category:"night",chapter:6,rarity:"稀有",kind:"夜行人 · 无主自行车影",icon:"🚲",trait:"车铃会在影子经过之后才响",item:"运河雨火柴",story:"我的骑手在一座桥上消失了，只剩我继续沿运河骑行。请给我一点不怕雨的火，好照清他最后拐弯的方向。",pay:{type:"item",amount:4,item:"运河悬雨"},schedule:[{favor:0,weather:["rain"],label:"雨天"},{favor:4,weekday:[5],label:"好感 4：任何周五"}]},
+  {name:"艾尔克十一城滑冰者",category:"traveler",chapter:4,rarity:"少见",kind:"旅人 · 弗里斯兰长途滑冰者",icon:"⛸️",trait:"围巾上绣着十一座城市的小盾徽",item:"十一城不融冰",story:"今年的河道还没等我经过就开始融化。我只想把十一座城连成一条完整的银线，再回家脱下冰刀。",pay:{type:"item",amount:3,item:"弗里斯兰霜绒"},schedule:[{favor:0,season:["winter"],weather:["clear","storm"],label:"冬季严晴或降雪"},{favor:5,moon:["full"],label:"好感 5：满月也会来"}]},
+  {name:"玛肯岛渔妇",category:"traveler",chapter:5,rarity:"常见",kind:"旅人 · 玛肯岛渔妇",icon:"🎣",trait:"红条围裙带着烟熏鳗鱼和北海风的味道",item:"瓦登回声口琴",story:"退潮带走了丈夫留在码头的最后一句玩笑。我想在下一次出海前，把那句话重新听完整。",pay:{type:"item",amount:4,item:"瓦登海回声贝"},schedule:[{favor:0,season:["summer","autumn"],weekday:[2,6],label:"夏秋的周二、周六"},{favor:4,weather:["wind"],label:"好感 4：有风时也会来"}]},
+  {name:"彩纹郁金香精",category:"nature",chapter:4,rarity:"稀有",kind:"自然灵 · 失落条纹郁金香",icon:"🌺",trait:"花瓣纹路像一张没人读懂的旧地图",item:"代尔夫特真心镜",story:"人们争论我的条纹究竟值多少钱，却没人问我想长成什么颜色。请给我一面只照见心意的镜子。",pay:{type:"item",amount:3,item:"石南萤光粉"},schedule:[{favor:0,season:["spring"],moon:["waxing"],label:"春季盈月"},{favor:0,season:["summer"],weekday:[4],label:"夏季周四"},{favor:5,weather:["clear"],label:"好感 5：晴天也会来"}]},
+  {name:"白琵鹭芦苇医师",category:"nature",chapter:5,rarity:"少见",kind:"自然灵 · 白琵鹭",icon:"🪽",trait:"匙形长喙间夹着一束会呼吸的芦苇",item:"马斯河逆流梳",story:"河口的幼鱼被错误的潮水带走了。我要把一条支流梳回芦苇床，让它们在涨潮前找到浅水。",pay:{type:"item",amount:3,item:"北海雾盐"},schedule:[{favor:0,season:["spring","summer"],weather:["rain","fog"],label:"春夏的雨雾天"},{favor:5,weekday:[3],label:"好感 5：周三也会来"}]},
+  {name:"风车星座机械师",category:"astral",chapter:6,rarity:"传说",kind:"星辰 · 风车座机械师",icon:"✣",trait:"四条袖子分别转动一枚星光齿轮",item:"乌得勒支倒行怀表",story:"天上的风车座慢了一分钟，北海的风便找不到陆地。我要借回那一分钟，重新咬合星空里的齿轮。",pay:{type:"item",amount:3,item:"北海月光片"},schedule:[{favor:0,moon:["full"],weather:["wind","clear"],label:"满月的晴天或风天"},{favor:0,month:[3],weekday:[6],label:"每季第三个月的周六"},{favor:5,month:[3],label:"好感 5：每季第三个月"}]},
+  {name:"泰瑟尔极光守灯人",category:"astral",chapter:6,rarity:"传说",kind:"星辰 · 泰瑟尔极光守灯人",icon:"🗼",trait:"灯塔帽檐下流动着绿色极光",item:"北海黎明信",story:"昨夜极光越过泰瑟尔，却忘了给北海上的一艘小船指路。请替我寄出一封赶得上日出的道歉信。",pay:{type:"item",amount:3,item:"瓦登星砂"},schedule:[{favor:0,season:["winter"],moon:["new","waning"],label:"冬季新月或亏月"},{favor:0,season:["winter"],weather:["storm"],label:"冬季风暴"},{favor:5,weather:["storm"],label:"好感 5：任何风暴中"}]}
 ];
 
 /* 荷兰地方志版本：只覆写角色文案，不改变需求、报酬、日程或章节逻辑。 */
@@ -108,7 +122,19 @@ window.VISITOR_MOODS = {
   "北海最后一颗星":{weather:{clear:2,fog:-1},decor:{lamp:2,rug:2,clock:-1},products:{"北海黎明信":2,"瓦登潮汐月历":1}},
   "月历抄写员":{weather:{clear:2,storm:-1},decor:{lamp:1,clock:2,cat:-1},products:{"瓦登潮汐月历":2,"代尔夫特真心镜":1}},
   "焦糖华夫厨师":{weather:{clear:2,rain:-2},decor:{teaset:2,lamp:1,plant:-1},products:{"焦糖华夫星盐罐":2,"十一城不融冰":-1}},
-  "低地晚霞占卜师":{weather:{fog:2,clear:-1},decor:{rug:2,clock:2,cat:1},products:{"圩田黄昏骰":2,"代尔夫特真心镜":1}}
+  "低地晚霞占卜师":{weather:{fog:2,clear:-1},decor:{rug:2,clock:2,cat:1},products:{"圩田黄昏骰":2,"代尔夫特真心镜":1}},
+  "诺尔堤坝测量员":{weather:{rain:2,storm:1,clear:-1},decor:{windmill:2,clock:1,cat:-1},products:{"北海星图罗盘":2,"费吕沃雾路灯":1}},
+  "彼得郁金香拍卖员":{weather:{clear:2,storm:-2},decor:{plant:2,clogs:1,clock:-1},products:{"郁金香慢时壶":2,"郁金香梦扣":1}},
+  "米普荷兰兔":{weather:{clear:1,storm:-2},decor:{plant:2,friesian:1,cat:-1},products:{"郁金香梦扣":2,"林堡果园梦枕":1}},
+  "西约尔德黑尾塍鹬":{weather:{wind:2,rain:1,storm:-1},decor:{goose:2,windmill:1,clock:-1},products:{"灰雁归巢铃":2,"风车捕风瓶":1}},
+  "莱顿沉钟守夜人":{weather:{fog:2,clear:-2},decor:{clock:2,lamp:1,clogs:-1},products:{"教堂代尔夫特记忆烛":2,"瓦登潮汐月历":1}},
+  "午夜自行车影":{weather:{rain:2,clear:-2},decor:{lamp:2,clock:1,rug:-1},products:{"运河雨火柴":2,"阿姆斯特丹影伞":1}},
+  "艾尔克十一城滑冰者":{weather:{storm:2,clear:1,rain:-1},decor:{clogs:2,friesian:1,teaset:-1},products:{"十一城不融冰":2,"北海星图罗盘":1}},
+  "玛肯岛渔妇":{weather:{wind:2,fog:1,storm:-1},decor:{goose:2,teaset:1,clock:-1},products:{"瓦登回声口琴":2,"灰雁归巢铃":1}},
+  "彩纹郁金香精":{weather:{clear:2,storm:-2},decor:{plant:2,clogs:1,clock:-2},products:{"代尔夫特真心镜":2,"郁金香慢时壶":1}},
+  "白琵鹭芦苇医师":{weather:{rain:2,fog:1,clear:-1},decor:{goose:2,plant:1,cat:-1},products:{"马斯河逆流梳":2,"十一城不融冰":-1}},
+  "风车星座机械师":{weather:{wind:2,clear:1,fog:-2},decor:{windmill:2,clock:2,plant:-1},products:{"乌得勒支倒行怀表":2,"北海星图罗盘":1}},
+  "泰瑟尔极光守灯人":{weather:{storm:2,clear:1,fog:-1},decor:{lamp:2,windmill:1,cat:-1},products:{"北海黎明信":2,"瓦登潮汐月历":1}}
 };
 
 /* 荷兰主题陈设也参与心情：同类访客会偏爱不同的本地意象。 */
@@ -122,7 +148,10 @@ window.VISITOR_PORTRAITS = {
   "运河夜邮差":"canal-night-postman.png","无影的黛尔芙特小姐":"shadowless-delft-lady.png","山墙幽灵":"gable-ghost.png","水镜先生":"water-mirror-gentleman.png",
   "瓦登海男孩":"wadden-sea-boy.png","范德梅尔船长":"captain-van-der-meer.png","阿尔克马尔商人":"alkmaar-merchant.png","灰雁邮差":"greylag-postman.png",
   "低地雨云":"lowland-raincloud.png","石南蓝蝶":"heath-blue-butterfly.png","柳堤苔藓爷爷":"willow-dike-moss-grandpa.png","马斯河的女儿":"daughter-of-maas.png",
-  "北海最后一颗星":"last-north-sea-star.png","月历抄写员":"moon-almanac-scribe.png","焦糖华夫厨师":"stroopwafel-comet-chef.png","低地晚霞占卜师":"lowland-twilight-diviner.png"
+  "北海最后一颗星":"last-north-sea-star.png","月历抄写员":"moon-almanac-scribe.png","焦糖华夫厨师":"stroopwafel-comet-chef.png","低地晚霞占卜师":"lowland-twilight-diviner.png",
+  "诺尔堤坝测量员":"noor-dike-surveyor.png","彼得郁金香拍卖员":"pieter-tulip-auctioneer.png","米普荷兰兔":"miep-dutch-rabbit.png","西约尔德黑尾塍鹬":"sjoerd-black-tailed-godwit.png",
+  "莱顿沉钟守夜人":"leiden-sunken-bell-watchman.png","午夜自行车影":"midnight-bicycle-shadow.png","艾尔克十一城滑冰者":"eelk-eleven-cities-skater.png","玛肯岛渔妇":"marken-fisherwoman.png",
+  "彩纹郁金香精":"striped-tulip-spirit.png","白琵鹭芦苇医师":"spoonbill-reed-doctor.png","风车星座机械师":"windmill-constellation-mechanic.png","泰瑟尔极光守灯人":"texel-aurora-lighthouse-keeper.png"
 };
 window.GAME_VISITORS.forEach(visitor=>visitor.portrait=`assets/visitors/${window.VISITOR_PORTRAITS[visitor.name]}`);
 
@@ -134,6 +163,23 @@ const VISITOR_TIME_PATTERNS = [
   {morning:.2,noon:.35,afternoon:.75,evening:1.5,late:1.85}
 ];
 window.GAME_VISITORS.forEach((visitor,index)=>visitor.timeWeights={...VISITOR_TIME_PATTERNS[(index+Math.floor(index/4))%VISITOR_TIME_PATTERNS.length]});
+
+/* 新角色时段使用叙事定向权重，避免序号生成造成“午夜角色偏早晨”。 */
+const NEW_VISITOR_TIME_WEIGHTS={
+  "诺尔堤坝测量员":{morning:1.5,noon:1.35,afternoon:1.05,evening:.65,late:.25},
+  "彼得郁金香拍卖员":{morning:1.65,noon:1.45,afternoon:.9,evening:.45,late:.2},
+  "米普荷兰兔":{morning:1.55,noon:1.25,afternoon:1,evening:.6,late:.25},
+  "西约尔德黑尾塍鹬":{morning:1.25,noon:1.55,afternoon:1.3,evening:.7,late:.3},
+  "莱顿沉钟守夜人":{morning:.2,noon:.35,afternoon:.75,evening:1.45,late:1.75},
+  "午夜自行车影":{morning:.15,noon:.25,afternoon:.55,evening:1.4,late:1.9},
+  "艾尔克十一城滑冰者":{morning:1.05,noon:1.45,afternoon:1.55,evening:.8,late:.35},
+  "玛肯岛渔妇":{morning:1.35,noon:1.15,afternoon:1.5,evening:1,late:.4},
+  "彩纹郁金香精":{morning:1.6,noon:1.25,afternoon:1,evening:.7,late:.35},
+  "白琵鹭芦苇医师":{morning:1.25,noon:1.4,afternoon:1.55,evening:.9,late:.4},
+  "风车星座机械师":{morning:.25,noon:.45,afternoon:1,evening:1.55,late:1.45},
+  "泰瑟尔极光守灯人":{morning:.15,noon:.25,afternoon:.55,evening:1.35,late:1.9}
+};
+window.GAME_VISITORS.forEach(visitor=>Object.assign(visitor.timeWeights,NEW_VISITOR_TIME_WEIGHTS[visitor.name]||{}));
 
 /*
  * 交易心情类型：
@@ -147,6 +193,7 @@ window.VISITOR_TRADE_STYLES = {
   "瓦登海男孩":"quantity","柳堤苔藓爷爷":"quantity","马斯河的女儿":"quantity","灰雁邮差":"quantity",
   "运河夜邮差":"both","无影的黛尔芙特小姐":"both","希尔达弗里斯兰马":"both","水镜先生":"both",
   "低地雨云":"both","石南蓝蝶":"both","北海最后一颗星":"both","焦糖华夫厨师":"both"
+  ,"诺尔堤坝测量员":"payment","彼得郁金香拍卖员":"quantity","米普荷兰兔":"quantity","西约尔德黑尾塍鹬":"both","莱顿沉钟守夜人":"payment","午夜自行车影":"both","艾尔克十一城滑冰者":"quantity","玛肯岛渔妇":"payment","彩纹郁金香精":"both","白琵鹭芦苇医师":"quantity","风车星座机械师":"payment","泰瑟尔极光守灯人":"both"
 };
 window.GAME_VISITORS.forEach(visitor=>visitor.tradeStyle=window.VISITOR_TRADE_STYLES[visitor.name]||"payment");
 
@@ -178,3 +225,20 @@ window.GAME_VISITORS.forEach((visitor,index)=>{
     gather:{locations:[["river","polder"],["farm","mill"],["coast","river"],["forest","polder"],["mill","coast"],["farm","forest"]][index%6],yield:1+index%3,specialty:EMPLOYEE_WAGE_ITEMS[index%EMPLOYEE_WAGE_ITEMS.length]}
   };
 });
+
+/* 新增 12 位角色的定向岗位平衡：六个采集地区各有两名主专长。 */
+const NEW_EMPLOYEE_ROLES={
+  "诺尔堤坝测量员":{wage:{type:"coins",amount:14},vacationMonth:2,vacationWeek:2,resumeChance:.38,greeter:{categories:["human","traveler"],strength:3,label:"水务公信迎宾"},maker:{enabled:false,dailyLimit:0,priority:"none"},display:{enabled:true,dailySlots:3,strategy:"forecast"},gather:{locations:["polder","river"],yield:2,specialty:"圩田日光灰"}},
+  "彼得郁金香拍卖员":{wage:{type:"item",item:"琥珀郁金香球茎",amount:2},vacationMonth:4,vacationWeek:1,resumeChance:.42,greeter:{categories:["human","nature"],strength:2,label:"拍卖场迎宾"},maker:{enabled:true,dailyLimit:2,priority:"advanced"},display:{enabled:true,dailySlots:3,strategy:"rare"},gather:{locations:["farm","forest"],yield:2,specialty:"琥珀郁金香球茎"}},
+  "米普荷兰兔":{wage:{type:"item",item:"郁金香晨露",amount:2},vacationMonth:3,vacationWeek:3,resumeChance:.5,greeter:{categories:["beast","nature"],strength:2,label:"温和迎宾"},maker:{enabled:true,dailyLimit:2,priority:"standard"},display:{enabled:false,dailySlots:0,strategy:"standard"},gather:{locations:["farm","forest"],yield:3,specialty:"风车旧木片"}},
+  "西约尔德黑尾塍鹬":{wage:{type:"item",item:"风车风结",amount:2},vacationMonth:5,vacationWeek:4,resumeChance:.34,greeter:{categories:["traveler","beast"],strength:3,label:"迁徙客迎宾"},maker:{enabled:false,dailyLimit:0,priority:"none"},display:{enabled:true,dailySlots:2,strategy:"forecast"},gather:{locations:["coast","polder"],yield:2,specialty:"风车风结"}},
+  "莱顿沉钟守夜人":{wage:{type:"item",item:"教堂记忆蜡",amount:2},vacationMonth:10,vacationWeek:2,resumeChance:.36,greeter:{categories:["night","astral"],strength:2,label:"夜钟迎宾"},maker:{enabled:true,dailyLimit:2,priority:"rare"},display:{enabled:true,dailySlots:2,strategy:"familiar"},gather:{locations:["mill","farm"],yield:2,specialty:"教堂记忆蜡"}},
+  "午夜自行车影":{wage:{type:"coins",amount:18},vacationMonth:11,vacationWeek:3,resumeChance:.32,greeter:{categories:["night","human"],strength:1,label:"无声迎宾"},maker:{enabled:false,dailyLimit:0,priority:"none"},display:{enabled:true,dailySlots:3,strategy:"forecast"},gather:{locations:["river","polder"],yield:3,specialty:"运河悬雨"}},
+  "艾尔克十一城滑冰者":{wage:{type:"item",item:"弗里斯兰霜绒",amount:2},vacationMonth:8,vacationWeek:1,resumeChance:.4,greeter:{categories:["traveler","human"],strength:2,label:"赛事迎宾"},maker:{enabled:true,dailyLimit:1,priority:"advanced"},display:{enabled:true,dailySlots:3,strategy:"forecast"},gather:{locations:["polder","coast"],yield:2,specialty:"弗里斯兰霜绒"}},
+  "玛肯岛渔妇":{wage:{type:"item",item:"瓦登海回声贝",amount:2},vacationMonth:7,vacationWeek:4,resumeChance:.46,greeter:{categories:["traveler","human"],strength:3,label:"码头熟客迎宾"},maker:{enabled:true,dailyLimit:1,priority:"standard"},display:{enabled:true,dailySlots:2,strategy:"familiar"},gather:{locations:["coast","river"],yield:3,specialty:"瓦登海回声贝"}},
+  "彩纹郁金香精":{wage:{type:"item",item:"石南萤光粉",amount:2},vacationMonth:6,vacationWeek:2,resumeChance:.35,greeter:{categories:["nature","beast"],strength:2,label:"花灵迎宾"},maker:{enabled:true,dailyLimit:1,priority:"rare"},display:{enabled:true,dailySlots:3,strategy:"rare"},gather:{locations:["forest","polder"],yield:3,specialty:"琥珀郁金香球茎"}},
+  "白琵鹭芦苇医师":{wage:{type:"item",item:"北海雾盐",amount:2},vacationMonth:9,vacationWeek:3,resumeChance:.4,greeter:{categories:["nature","beast"],strength:3,label:"湿地疗愈迎宾"},maker:{enabled:true,dailyLimit:1,priority:"advanced"},display:{enabled:false,dailySlots:0,strategy:"standard"},gather:{locations:["river","coast"],yield:3,specialty:"北海雾盐"}},
+  "风车星座机械师":{wage:{type:"item",item:"北海月光片",amount:2},vacationMonth:12,vacationWeek:4,resumeChance:.3,greeter:{categories:["astral","night"],strength:2,label:"星图迎宾"},maker:{enabled:true,dailyLimit:2,priority:"rare"},display:{enabled:true,dailySlots:2,strategy:"rare"},gather:{locations:["mill","farm"],yield:3,specialty:"风车铜齿轮"}},
+  "泰瑟尔极光守灯人":{wage:{type:"coins",amount:22},vacationMonth:1,vacationWeek:1,resumeChance:.28,greeter:{categories:["astral","traveler"],strength:3,label:"灯塔引航迎宾"},maker:{enabled:false,dailyLimit:0,priority:"none"},display:{enabled:true,dailySlots:3,strategy:"forecast"},gather:{locations:["forest","coast"],yield:2,specialty:"瓦登星砂"}}
+};
+for(const [name,role] of Object.entries(NEW_EMPLOYEE_ROLES)){const cfg=window.VISITOR_EMPLOYMENT[name];Object.assign(cfg,{wage:role.wage,vacationMonth:role.vacationMonth,vacationWeek:role.vacationWeek,resumeChance:role.resumeChance,abilities:{greeter:role.greeter,maker:role.maker,display:role.display,gather:role.gather}})}
