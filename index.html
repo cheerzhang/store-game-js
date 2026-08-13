@@ -5,12 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#191714">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta name="description" content="经营一家只在黄昏后出现的奇怪小店。">
+  <meta name="description" content="在荷兰低地经营一家奇怪的小店，探索地图、采集材料并聆听来客的故事。">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/game-icon-192.png">
   <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
   <title>迟灯杂货铺</title>
-  <link rel="stylesheet" href="styles.css?v=51">
+  <link rel="stylesheet" href="styles.css?v=60">
 </head>
 <body>
   <div class="grain" aria-hidden="true"></div>
@@ -31,22 +31,26 @@
     <section class="game-page active" id="page-visitor">
       <div class="weather-layer" id="weatherLayer" aria-hidden="true"></div>
       <section class="weekly-summary-page" id="weeklySummaryPage" hidden><div class="weekly-summary-card"><p class="eyebrow">WEEKLY PAYROLL</p><h2 id="weeklySummaryTitle">本周工资结算</h2><p id="weeklySummaryIntro"></p><div class="weekly-staff-list" id="weeklyStaffList"></div><button class="button primary" id="weeklySummaryClose">确认账目，开始本周 →</button></div></section>
-      <div class="page-hero"><div><p class="eyebrow">今晚营业中</p><h1>门铃只为<br><em>有缘人</em>响起。</h1></div><div><p class="lede">每天，一件怪东西会出现在柜台上。每天，一位客人带着一个不能告诉别人的愿望推门而入。</p><div class="chapter-progress"><div><span id="chapterName">第一章 · 初燃的灯</span><small id="chapterHint">距离下一章还有 7 天</small></div><div class="chapter-track"><i id="chapterProgress"></i></div></div></div></div>
+      <section class="day-summary-page" id="daySummaryPage" hidden><div class="day-summary-card"><p class="eyebrow">A DAY IN THE LOWLANDS</p><h2 id="daySummaryTitle">今日经营小结</h2><p id="daySummaryIntro"></p><div class="day-summary-stats" id="daySummaryStats"></div><div class="day-timeline" id="dayTimeline"></div><button class="button primary" id="daySummaryClose">合上手记，迎接新的一天 →</button></div></section>
+      <div class="page-hero"><div><p class="eyebrow">低地的一日</p><h1>开门等故事，<br><em>或出门寻找它。</em></h1></div><div><p class="lede">一天有五个时段。留在小店便会营业；走向河岸、圩田或海边，则会关店并用这段时间寻找材料。</p><div class="chapter-progress"><div><span id="chapterName">第一章 · 初燃的灯</span><small id="chapterHint">距离下一章还有 7 天</small></div><div class="chapter-track"><i id="chapterProgress"></i></div></div></div></div>
       <section class="calendar-ribbon" id="calendarRibbon" aria-label="迟灯历"><div class="moon-cell"><span class="calendar-moon" id="calendarMoon">🌑</span><strong id="moonName">新月</strong></div><div><span class="calendar-symbol" id="seasonIcon">🌱</span><small>季节</small><strong id="seasonName">春季</strong></div><div><span class="calendar-symbol">◫</span><small>月份</small><strong id="monthName">春一月</strong></div><div><span class="calendar-symbol">✦</span><small>星期</small><strong id="weekdayName">星期一</strong></div><div><span class="calendar-symbol" id="weatherIcon">🌧️</span><small>天气</small><strong id="weatherName">细雨</strong></div><div class="calendar-note"><small>迟灯历</small><strong id="calendarDate">第 1 年 · 第 1 月</strong></div></section>
-      <section class="visitor-forecast" id="visitorDraw"><div class="forecast-heading"><div><p class="eyebrow">今夜门铃</p><strong>可能来访的客人</strong></div><span id="forecastCount">0 位符合条件 · 最终只会来一位</span></div><div class="forecast-list" id="potentialVisitors"></div><div class="draw-controls" id="drawControls"><p>牌已经洗好。挑一张你有感觉的牌，亲手翻开今夜的来客。</p><span>点击任意问号牌 ✦</span></div></section>
-      <section class="counter" aria-label="今日来客">
+      <section class="time-planner"><div class="time-track" id="timeTrack"></div><div class="time-copy"><p class="eyebrow">CURRENT PERIOD</p><strong id="currentTimeName">早上</strong><span id="timeInstruction">选择留店营业，或去一个地点采集。</span></div></section>
+      <section class="world-map" id="worldMap" aria-label="低地探索地图"><div class="map-sky"></div><svg class="map-routes" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><g id="mapRoutePaths"></g></svg><div class="map-avatar" id="mapAvatar"><i></i><b></b></div><div class="gather-effects" id="gatherEffects" aria-hidden="true"></div><div id="mapLocations"></div><div class="map-legend"><span><i class="rarity-dot common"></i>常见</span><span><i class="rarity-dot uncommon"></i>少见</span><span><i class="rarity-dot rare"></i>稀有</span></div></section>
+      <section class="period-result" id="periodResult"><span>✦</span><div><p class="eyebrow">本时段记录</p><strong>清晨的地图刚刚展开</strong><small>选择一个地点开始行动。</small></div></section>
+      <section class="visitor-forecast" id="visitorDraw"><div class="forecast-heading"><div><p class="eyebrow">本时段门铃</p><strong>系统会依环境自动选择来客</strong></div><span id="forecastCount">营业时才会响起</span></div><div class="forecast-list" id="potentialVisitors"></div><div class="draw-controls" id="drawControls"><p>不再需要翻牌。来客会受到时段、季节、天气、月相、装修和好感共同影响。</p><span>自动来访 ✦</span></div></section>
+      <section class="counter" id="visitorCounter" aria-label="当前来客">
         <div class="customer-card"><div class="portrait"><img id="portraitImage" src="assets/visitors/mr-chestnuttail.png" alt="栗尾先生"></div><div class="customer-meta"><span class="tag" id="customerKind">兽客</span><h2 id="customerName">栗尾先生</h2><p id="customerTrait"></p><div class="favor-inline">好感 <b id="currentFavor">0</b> <span id="favorHearts">♡♡♡♡♡</span></div></div></div>
         <div class="story-card"><span class="quote-mark">“</span><p id="customerStory"></p><div class="request"><span>想要</span><strong id="requestedItem"></strong></div><div class="payment"><span>愿意支付</span><strong id="paymentOffer"></strong></div></div>
       </section>
       <section class="mood-panel"><div><p class="eyebrow">今日心情</p><strong id="moodTitle">正在观察店里…</strong></div><div class="mood-effects" id="moodEffects"></div></section>
       <section class="decision-panel"><div class="availability"><span class="dot"></span><span id="availabilityText">检查货架中…</span></div><div class="actions"><button class="button hire" id="hireButton" hidden>支付周薪并录用</button><button class="button primary" id="sellButton">卖给客人 <span>→</span></button><button class="button craft" id="craftButton">制作 <span id="craftCost"></span></button><button class="button ghost" id="refuseButton">婉言拒绝</button></div></section>
-      <section class="daily-drops"><div><p class="eyebrow">清晨拾获</p><strong>今日掉落</strong></div><div class="drop-list" id="dailyDropList"></div></section>
+      <section class="daily-drops"><div><p class="eyebrow">外出所得</p><strong>今日采集记录</strong></div><div class="drop-list" id="dailyDropList"></div></section>
       <details class="quick-inventory"><summary><span><small>店内速览</small><strong>看看店里有什么</strong></span><span class="summary-count" id="quickInventoryCount">0 件库存</span></summary><div id="quickInventory"></div></details>
       <button class="text-button reset home-reset" id="resetButton">清空本地数据，重新开店</button>
     </section>
 
     <section class="game-page" id="page-inventory">
-      <div class="page-title"><p class="eyebrow">店内一览</p><h1>货架与材料</h1><p>每件东西都有自己的脾气。材料会在每天清晨悄悄出现。</p></div>
+      <div class="page-title"><p class="eyebrow">店内一览</p><h1>货架与材料</h1><p>材料需要亲自前往不同地点寻找。卡片会标明地点、时段、环境与稀有度。</p></div>
       <section class="display-shelf" id="displayShelf"><div><p class="eyebrow">明日柜台</p><strong>最多摆出 3 件成品</strong><small id="displayShelfHint">随时调整，下一天开始生效</small></div><div id="displayedProducts"></div></section>
       <div class="shelf-grid" id="inventoryGrid"></div>
     </section>
@@ -61,7 +65,7 @@
       <div class="room" id="room"><div class="ceiling-beam"></div><div class="room-window"><span id="windowMoon">🌑</span><small id="windowSky">春季 · 新月</small></div><div class="wall-frames"><i>✦</i><i>?</i></div><div class="room-shelves"><span>◈</span><span>♢</span><span>◉</span><span>△</span><span>✧</span><span>▱</span></div><div class="room-counter"><span>迟灯杂货</span><small>ODDMENTS</small></div><div class="floor-lines"></div><div class="decor-layer" id="decorLayer"></div></div>
       <div class="section-heading decor-heading"><div><p class="eyebrow">可添置</p><h2>陈设目录</h2></div><span class="catalog-note" id="decorStatus">购买后可以随时摆出或收起</span></div>
       <div class="decor-grid" id="decorGrid"></div>
-      <section class="staff-section"><div class="section-heading"><div><p class="eyebrow">SHOP STAFF</p><h2>店员与简历</h2></div><span class="catalog-note" id="staffStatus">最多雇佣 3 位店员</span></div><div class="staff-grid" id="staffGrid"></div></section>
+      <section class="staff-section"><div class="section-heading"><div><p class="eyebrow">SHOP STAFF</p><h2>店员与简历</h2></div><span class="catalog-note" id="staffStatus">雇佣人数没有上限</span></div><div class="staff-grid" id="staffGrid"></div></section>
     </section>
 
     <section class="game-page" id="page-forecast">
@@ -81,11 +85,12 @@
     </section>
   </main>
 
-  <footer><span>营业时间：日落之后 — 梦醒之前</span><span>所有故事仅保存在这台设备上</span></footer>
+  <footer><span>一天五个时段 · 营业或探索由你决定</span><span>所有故事仅保存在这台设备上</span></footer>
   <dialog id="resultDialog"><div class="dialog-inner"><span class="dialog-icon" id="dialogIcon">✦</span><p class="eyebrow" id="dialogLabel"></p><h2 id="dialogTitle"></h2><p id="dialogText"></p><button class="button primary" id="nextDayButton">继续到下一天 <span>→</span></button></div></dialog>
   <dialog id="noticeDialog"><div class="dialog-inner"><span class="dialog-icon">✦</span><p class="eyebrow" id="noticeLabel">店铺陈设</p><h2 id="noticeTitle"></h2><p id="noticeText"></p><button class="button primary" id="noticeClose">知道了</button></div></dialog>
-  <script src="data/items.js?v=40"></script>
-  <script src="data/visitors.js?v=52"></script>
-  <script src="game.js?v=52"></script>
+  <script src="data/items.js?v=60"></script>
+  <script src="data/visitors.js?v=60"></script>
+  <script src="data/exploration.js?v=56"></script>
+  <script src="game.js?v=60"></script>
 </body>
 </html>
