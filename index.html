@@ -10,7 +10,7 @@
   <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/game-icon-192.png">
   <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
   <title>迟灯杂货铺</title>
-  <link rel="stylesheet" href="styles.css?v=84">
+  <link rel="stylesheet" href="styles.css?v=87">
 </head>
 <body>
   <div class="grain" aria-hidden="true"></div>
@@ -62,6 +62,7 @@
 
     <section class="game-page" id="page-shop">
       <div class="page-title shop-title"><div><p class="eyebrow">慢慢布置</p><h1>我的小店</h1><p>用交易所得装点这里。每一件陈设都会留在店中，让夜晚变得更温暖。</p></div><div class="comfort"><span>店铺温暖度</span><strong id="comfortScore">0</strong></div></div>
+      <section class="fortress-panel" id="fortressPanel"><div class="fortress-overview" id="fortressOverview"></div><div class="fortress-parts" id="fortressParts"></div></section>
       <div class="room" id="room"><div class="ceiling-beam"></div><div class="room-window"><span id="windowMoon">🌑</span><small id="windowSky">春季 · 新月</small></div><div class="wall-frames"><i>✦</i><i>?</i></div><div class="room-shelves"><span>◈</span><span>♢</span><span>◉</span><span>△</span><span>✧</span><span>▱</span></div><div class="room-counter"><span>迟灯杂货</span><small>ODDMENTS</small></div><div class="floor-lines"></div><div class="decor-layer" id="decorLayer"></div></div>
       <div class="section-heading decor-heading"><div><p class="eyebrow">可添置</p><h2>陈设目录</h2></div><span class="catalog-note" id="decorStatus">购买后可以随时摆出或收起</span></div>
       <div class="decor-grid" id="decorGrid"></div>
@@ -73,6 +74,7 @@
       <section class="tomorrow-calendar" id="tomorrowCalendar"></section>
       <div class="section-heading forecast-weather-heading"><div><p class="eyebrow">天气可能</p><h2>风向针的猜测</h2></div><span class="catalog-note">明日天气必定来自以下结果</span></div>
       <div class="weather-options" id="weatherOptions"></div>
+      <section class="hazard-forecast" id="hazardForecast"></section>
       <section class="forecast-guests" id="forecastGuests"></section>
     </section>
 
@@ -91,8 +93,9 @@
   <script src="data/items.js?v=60"></script>
   <script src="data/visitors.js?v=73"></script>
   <script src="data/exploration.js?v=83"></script>
-  <script src="game.js?v=84"></script>
+  <script src="game.js?v=85"></script>
   <script src="employment-fixes.js?v=84"></script>
+  <script src="disaster-system.js?v=87"></script>
   <script src="player-route.js?v=84"></script>
   <script src="gather-map-ui.js?v=80"></script>
   <script src="inventory-ui.js?v=76"></script>
