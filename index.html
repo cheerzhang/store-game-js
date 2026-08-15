@@ -10,7 +10,7 @@
   <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/game-icon-192.png">
   <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
   <title>迟灯杂货铺</title>
-  <link rel="stylesheet" href="styles.css?v=87">
+  <link rel="stylesheet" href="styles.css?v=90">
 </head>
 <body>
   <div class="grain" aria-hidden="true"></div>
@@ -90,12 +90,28 @@
   <footer><span>一天五个时段 · 营业或探索由你决定</span><span>所有故事仅保存在这台设备上</span></footer>
   <dialog id="resultDialog"><div class="dialog-inner"><span class="dialog-icon" id="dialogIcon">✦</span><p class="eyebrow" id="dialogLabel"></p><h2 id="dialogTitle"></h2><p id="dialogText"></p><button class="button primary" id="nextDayButton">继续到下一天 <span>→</span></button></div></dialog>
   <dialog id="noticeDialog"><div class="dialog-inner"><span class="dialog-icon">✦</span><p class="eyebrow" id="noticeLabel">店铺陈设</p><h2 id="noticeTitle"></h2><p id="noticeText"></p><button class="button primary" id="noticeClose">知道了</button></div></dialog>
+  <dialog id="disasterDialog" class="disaster-dialog" aria-labelledby="disasterTitle">
+    <div class="disaster-impact" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="disaster-card">
+      <p class="eyebrow">EMERGENCY WEATHER ALERT</p>
+      <span class="disaster-icon" id="disasterIcon" aria-hidden="true">🌪️</span>
+      <h2 id="disasterTitle">灾害来袭！</h2>
+      <p class="disaster-message" id="disasterMessage"></p>
+      <div class="disaster-damage" aria-live="assertive">
+        <span id="disasterPartIcon">🏠</span>
+        <div><small>小店受损部位</small><strong id="disasterPartName">屋顶</strong></div>
+        <div><small>本次损伤</small><strong id="disasterDamage">−0</strong></div>
+        <div><small>剩余耐久</small><strong id="disasterRemaining">0 / 0</strong></div>
+      </div>
+      <button class="button disaster-confirm" id="disasterClose">记下损伤，返回地图 <span>→</span></button>
+    </div>
+  </dialog>
   <script src="data/items.js?v=60"></script>
   <script src="data/visitors.js?v=73"></script>
   <script src="data/exploration.js?v=83"></script>
   <script src="game.js?v=85"></script>
   <script src="employment-fixes.js?v=84"></script>
-  <script src="disaster-system.js?v=88"></script>
+  <script src="disaster-system.js?v=90"></script>
   <script src="player-route.js?v=84"></script>
   <script src="gather-map-ui.js?v=80"></script>
   <script src="inventory-ui.js?v=76"></script>

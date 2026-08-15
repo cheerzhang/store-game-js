@@ -50,18 +50,53 @@ function fortressTotals(){ensureFortressState();const values=Object.values(state
 function partBroken(id){ensureFortressState();return state.fortress.parts[id].health<=0}
 function disasterRisk(day=state.day+1){const chapter=chapterForDay(day).id,quiet=state.fortress?.quietDays||0;return Math.min(65,22+Math.floor((chapter-1)*.72)+Math.min(24,quiet*4))}
 function possibleDisasters(weatherOptions,day){const cal=calendar(day),ids=weatherOptions.map(w=>w.id);return Object.entries(DISASTERS).filter(([,d])=>d.weather.some(w=>ids.includes(w))&&(!d.winter||cal.season==="winter")).map(([id])=>id)}
-function createHazardForecast(day=state.day+1,weatherOptions=state.tomorrowForecast?.options||[]){return {day,risk:disasterRisk(day),types:possibleDisasters(weatherOptions,day),quietDays:state.fortress?.quietDays||0}}
+function createHazardForecast(day=state.day+1,weatherOptions=state.tomorrowForecast?.options||[]){
+  const quiet=state.fortress?.quietDays||0,options=weatherOptions;
+  if(quiet>=4&&!possibleDisasters(options,day).length&&options.length){
+    const cal=calendar(day),severe=ENVIRONMENT.weather[cal.season].filter(w=>["rain","wind","storm"].includes(w.id));
+    if(severe.length){const replacement=clone(severe[Math.floor(Math.random()*severe.length)]),old=options[options.length-1];options[options.length-1]={...replacement,probability:old.probability}}
+  }
+  return {day,risk:disasterRisk(day),types:possibleDisasters(options,day),weatherOptions:options.map(w=>clone(w)),quietDays:quiet}
+}
 
 function applyDailyDisaster(todayForecast){
   ensureFortressState();
   if(state.fortress.hazardDay===state.day)return;
   state.fortress.hazardDay=state.day;
-  const candidates=(todayForecast?.types||[]).filter(id=>{const d=DISASTERS[id];return d.weather.includes(state.weather.id)&&(!d.winter||calendar().season==="winter")});
+  let candidates=(todayForecast?.types||[]).filter(id=>{const d=DISASTERS[id];return d.weather.includes(state.weather.id)&&(!d.winter||calendar().season==="winter")});
   const guaranteed=state.fortress.quietDays>=4;
+  if(guaranteed&&!candidates.length&&todayForecast?.types?.length){const weatherOptions=todayForecast.weatherOptions||[],type=todayForecast.types.find(id=>weatherOptions.some(w=>DISASTERS[id].weather.includes(w.id)));if(type){const forcedWeather=weatherOptions.find(w=>DISASTERS[type].weather.includes(w.id));if(forcedWeather){state.weather=clone(forcedWeather);candidates=[type]}}}
   const triggered=candidates.length&&(guaranteed||Math.random()*100<(todayForecast?.risk||disasterRisk(state.day)));
   if(!triggered){state.fortress.quietDays+=1;state.todayDisaster=null;return}
-  const id=candidates[Math.floor(Math.random()*candidates.length)],event=DISASTERS[id],partId=event.parts[Math.floor(Math.random()*event.parts.length)],part=state.fortress.parts[partId],chapter=chapterNumber(),damage=Math.min(38,3+Math.floor(chapter*.72)+Math.floor(Math.random()*(4+chapter*.22))),actual=Math.min(part.health,damage);
-  part.health-=actual;state.fortress.quietDays=0;state.weather={...state.weather,icon:event.icon,name:`${state.weather.name} · ${event.name}`};state.todayDisaster={id,part:partId,damage:actual,day:state.day,guaranteed};state.history.unshift({day:state.day,story:`${event.icon} ${event.name}袭击了${SHOP_PARTS[partId].name}。`,outcome:`${SHOP_PARTS[partId].name}耐久 -${actual}${part.health<=0?" · 部件损坏":""}${guaranteed?" · 平静期保底触发":""}`})
+  const id=candidates[Math.floor(Math.random()*candidates.length)],event=DISASTERS[id],intactParts=event.parts.filter(partId=>state.fortress.parts[partId].health>0),targetParts=intactParts.length?intactParts:event.parts,partId=targetParts[Math.floor(Math.random()*targetParts.length)],part=state.fortress.parts[partId],chapter=chapterNumber(),damage=Math.min(38,3+Math.floor(chapter*.72)+Math.floor(Math.random()*(4+chapter*.22))),actual=Math.min(part.health,damage);
+  part.health-=actual;state.fortress.quietDays=0;state.weather={...state.weather,icon:event.icon,name:`${state.weather.name} · ${event.name}`};state.todayDisaster={id,part:partId,damage:actual,day:state.day,guaranteed,announced:false};state.history.unshift({day:state.day,story:`${event.icon} ${event.name}袭击了${SHOP_PARTS[partId].name}。`,outcome:`${SHOP_PARTS[partId].name}耐久 -${actual}${part.health<=0?" · 部件损坏":""}${guaranteed?" · 平静期保底触发":""}`});setTimeout(showDisasterAnnouncement,520)
+}
+
+const DISASTER_HEADLINES={gale:"龙卷风袭击小镇！",downpour:"特大暴雨来啦！",snowload:"暴雪压向小店！",lightning:"雷暴正面击中！",flood:"运河洪水漫上街道！"};
+const DISASTER_MESSAGES={gale:"狂风卷过屋瓦与窗板，整间小店都在摇晃。",downpour:"暴雨像幕布一样落下，雨水正冲击店铺。",snowload:"厚重积雪不断堆积，木梁发出了危险的声响。",lightning:"一道白光劈开天空，紧接着传来震耳的雷声。",flood:"水越过低地与石阶，已经涌到小店门前。"};
+
+function showDisasterAnnouncement(){
+  const hit=state.todayDisaster,dialog=document.querySelector("#disasterDialog");
+  if(!hit||hit.day!==state.day||hit.announced||!dialog)return;
+  if(document.querySelector("dialog[open]:not(#disasterDialog)")){setTimeout(showDisasterAnnouncement,650);return}
+  const event=DISASTERS[hit.id],meta=SHOP_PARTS[hit.part],part=state.fortress.parts[hit.part];
+  document.querySelector("#disasterIcon").textContent=event.icon;
+  document.querySelector("#disasterTitle").textContent=DISASTER_HEADLINES[hit.id]||`${event.name}来袭！`;
+  document.querySelector("#disasterMessage").textContent=DISASTER_MESSAGES[hit.id]||`${event.name}袭击了你的小店。`;
+  document.querySelector("#disasterPartIcon").textContent=meta.icon;
+  document.querySelector("#disasterPartName").textContent=`${meta.name}${part.health<=0?" · 已损坏":""}`;
+  document.querySelector("#disasterDamage").textContent=`−${hit.damage}`;
+  document.querySelector("#disasterRemaining").textContent=`${part.health} / ${part.max}`;
+  dialog.dataset.disaster=hit.id;
+  document.body.classList.add("disaster-striking",`disaster-${hit.id}`);
+  if(!dialog.open)dialog.showModal();
+}
+
+function closeDisasterAnnouncement(){
+  const dialog=document.querySelector("#disasterDialog"),hit=state.todayDisaster;
+  if(hit&&hit.day===state.day){hit.announced=true;save()}
+  if(dialog?.open)dialog.close();
+  document.body.classList.remove("disaster-striking",...Object.keys(DISASTERS).map(id=>`disaster-${id}`));
 }
 
 function materialCostLabel(cost){return Object.entries(cost).map(([name,n])=>`${MATERIALS[name]?.icon||"◆"}${name}×${n}`).join(" + ")}
@@ -86,4 +121,6 @@ function openFortressManagement(){const shopPage=document.querySelector("#page-s
 function decorateShopHealth(){const node=document.querySelector(".shop-node"),button=node?.querySelector(".shop-action");if(!node||!button)return;node.querySelector(".map-shop-health")?.remove();const total=fortressTotals(),pct=Math.round(total.health/total.max*100);node.querySelector(".map-place")?.insertAdjacentHTML("afterend",`<span class="map-shop-health ${total.health<=0?"critical":""}"><i><b style="width:${pct}%"></b></i><strong>坚固 ${total.health}/${total.max}</strong><button type="button" data-open-fortress>🛠 加固</button></span>`);node.querySelector("[data-open-fortress]").addEventListener("click",event=>{event.preventDefault();event.stopPropagation();openFortressManagement()});if(total.health<=0){button.disabled=true;button.innerHTML=`暂停营业<small>小店完全损坏 · 点击加固</small>`}}
 const showPageBeforeFortress=showPage;showPage=function(id){if(id==="shop")document.querySelector("#page-shop")?.classList.remove("fortress-only");showPageBeforeFortress(id)};
 new MutationObserver(decorateShopHealth).observe(document.querySelector("#mapLocations"),{childList:true});
-ensureFortressState();if(!state.tomorrowHazard||state.tomorrowHazard.day!==state.day+1||state.tomorrowHazard.risk<22)state.tomorrowHazard=createHazardForecast();renderFortress();renderTomorrowForecast();decorateShopHealth();save();
+document.querySelector("#disasterClose")?.addEventListener("click",closeDisasterAnnouncement);
+document.querySelector("#disasterDialog")?.addEventListener("cancel",event=>{event.preventDefault();closeDisasterAnnouncement()});
+ensureFortressState();if(!state.tomorrowHazard||state.tomorrowHazard.day!==state.day+1||state.tomorrowHazard.risk<22||!state.tomorrowHazard.weatherOptions)state.tomorrowHazard=createHazardForecast();renderFortress();renderTomorrowForecast();decorateShopHealth();save();setTimeout(showDisasterAnnouncement,380);
