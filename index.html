@@ -10,7 +10,7 @@
   <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/game-icon-192.png">
   <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
   <title>迟灯杂货铺</title>
-  <link rel="stylesheet" href="styles.css?v=97">
+  <link rel="stylesheet" href="styles.css?v=98">
 </head>
 <body>
   <div class="grain" aria-hidden="true"></div>
@@ -124,6 +124,8 @@
       <p id="gameOverReason"></p>
       <div class="game-over-stats" id="gameOverStats"></div>
       <blockquote id="gameOverEpilogue"></blockquote>
+      <button class="button ai-log-export" id="exportAILogButton">导出本局 AI 决策日志 ↓</button>
+      <small class="ai-log-export-status" id="aiLogExportStatus">仅下载到本地，不会上传网络</small>
       <button class="button primary" id="restartGameButton">重新开一家小店 →</button>
       <small>重新开始会清除本次保存在设备上的经营进度</small>
     </div>
@@ -144,6 +146,6 @@
   <script src="autoplay.js?v=7"></script>
   <script src="loss-system.js?v=2"></script>
   <script src="mode-workforce.js?v=4"></script>
-  <script src="ai-telemetry.js?v=1"></script>
+  <script src="ai-telemetry.js?v=2"></script>
 </body>
 </html>
