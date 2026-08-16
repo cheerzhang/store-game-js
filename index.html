@@ -10,7 +10,7 @@
   <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/game-icon-192.png">
   <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
   <title>迟灯杂货铺</title>
-  <link rel="stylesheet" href="styles.css?v=90">
+  <link rel="stylesheet" href="styles.css?v=91">
 </head>
 <body>
   <div class="grain" aria-hidden="true"></div>
@@ -23,6 +23,11 @@
     </nav>
     <div class="status-row"><span id="chapterBadge">第一章</span><span>第 <b id="dayNumber">1</b> 日</span><span class="moon">◐</span><span><b id="coinCount">12</b> 枚铜币</span></div>
   </header>
+  <aside class="autoplay-control" id="autoplayControl" data-running="false" aria-live="polite">
+    <span class="autoplay-avatar" aria-hidden="true">♟</span>
+    <span class="autoplay-copy"><small>普通自动玩家</small><strong id="autoplayThought">等待你交给它小店</strong></span>
+    <button type="button" id="autoplayToggle" aria-pressed="false"><i>▶</i><b>自动玩</b></button>
+  </aside>
 
   <main>
     <section class="game-page active" id="page-visitor">
@@ -115,5 +120,6 @@
   <script src="player-route.js?v=84"></script>
   <script src="gather-map-ui.js?v=80"></script>
   <script src="inventory-ui.js?v=76"></script>
+  <script src="autoplay.js?v=1"></script>
 </body>
 </html>
