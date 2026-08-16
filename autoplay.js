@@ -31,7 +31,9 @@ async function autoplaySelect(select,value,thought,generation){
 }
 
 function wageReserve(type,item){return state.employees.reduce((sum,employee)=>{const wage=EMPLOYMENT[employee.name]?.wage;if(!wage||wage.type!==type||type==="item"&&wage.item!==item)return sum;return sum+wage.amount*2+(employee.debt||0)},0)}
-function safeToHire(visitor){const cfg=EMPLOYMENT[visitor.name],target=state.gameMode==="staff"?8:2,cap=typeof modeEmployeeCap==="function"?modeEmployeeCap():Infinity;if(!cfg||state.employees.length>=Math.min(target,cap)||totalDeals()<4||(state.survival?.credit??5)<3)return false;const wage=cfg.wage;if(wage.type==="coins")return state.coins>=wageReserve("coins")+wage.amount*3+20;return count(wage.item)>=wageReserve("item",wage.item)+wage.amount*3+2}
+function autoplayHiringTarget(){return {lean:3,staff:8,storm:4,story:4,free:4}[state.gameMode]||3}
+function hireReadiness(visitor){const cfg=EMPLOYMENT[visitor.name],target=Math.min(autoplayHiringTarget(),typeof modeEmployeeCap==="function"?modeEmployeeCap():Infinity);if(!cfg)return {ok:false,reason:"缺少雇佣配置"};if(state.employees.length>=target)return {ok:false,reason:`当前模式的主动招聘目标已达 ${target} 人`};if(totalDeals()<4)return {ok:false,reason:"先完成 4 笔交易建立经营基础"};if((state.survival?.credit??5)<3)return {ok:false,reason:"信用不足，先恢复信用"};if((state.survival?.noTradeDays||0)>=4)return {ok:false,reason:"正处于断供危机，先恢复成交"};const wage=cfg.wage,ok=wage.type==="coins"?state.coins>=wageReserve("coins")+wage.amount*2+14:count(wage.item)>=wageReserve("item",wage.item)+wage.amount*2+1;return {ok,reason:ok?"已备好首周工资与下一周续薪储备":`尚未备足首周及下一周的${wage.type==="coins"?"铜币工资":wage.item+"工资"}`}}
+function safeToHire(visitor){return hireReadiness(visitor).ok}
 function safeMaterialExpense(cost){const crisis=(state.survival?.noTradeDays||0)>=3;return Object.entries(cost).every(([name,amount])=>count(name)-amount>=wageReserve("item",name)+(name==="风车旧木片"?(crisis?2:3):crisis?0:1))}
 
 function autoplayDefenseAction(){
@@ -59,7 +61,7 @@ function autoplayStaffAction(){
 }
 
 function autoplayExpectedVisitors(day=state.day+1){const cal=calendar(day),weatherIds=state.tomorrowForecast?.day===day?state.tomorrowForecast.options.map(option=>option.id):[state.weather.id];return CUSTOMERS.filter(c=>!employedNames().includes(c.name)&&(c.chapter||1)<=chapterForDay(day).id&&activeVisitRules(c).some(rule=>weatherIds.some(id=>ruleMatches(rule,cal,id))))}
-function autoplayDecorScore(decor,visitors){return visitors.reduce((sum,visitor)=>{const personal=VISITOR_MOODS[visitor.name]?.decor?.[decor.id]||0,attract=Array.isArray(decor.attract)?decor.attract.includes(visitor.category):decor.attract===visitor.category;return sum+personal*3+(attract?2:0)},0)+(decor.reward||0)*4+decor.comfort}
+function autoplayDecorScore(decor,visitors){const recruiting=state.employees.length<autoplayHiringTarget();return visitors.reduce((sum,visitor)=>{const personal=VISITOR_MOODS[visitor.name]?.decor?.[decor.id]||0,attract=Array.isArray(decor.attract)?decor.attract.includes(visitor.category):decor.attract===visitor.category,recruitBonus=recruiting&&attract?(state.applications[visitor.name]?6:relation(visitor.name).favor>=7?3:0):0;return sum+personal*3+(attract?2:0)+recruitBonus},0)+(decor.reward||0)*4+decor.comfort}
 function autoplayProductScore(name,visitors){return visitors.reduce((sum,visitor)=>sum+(VISITOR_MOODS[visitor.name]?.products?.[name]||0)*4+(visitor.item===name?2:0),0)+ITEMS[name].chapter}
 
 function autoplayCraftAction(){if(chapterNumber()<4)return null;const visitors=autoplayExpectedVisitors(state.day),demanded=new Set(visitors.map(visitor=>visitor.item)),candidates=Object.keys(ITEMS).filter(name=>isDiscovered(name)&&canCraft(name)&&count(name)<(demanded.has(name)?2:1)&&safeMaterialExpense(ITEMS[name].recipe)).sort((a,b)=>(demanded.has(b)?20:0)+autoplayProductScore(b,visitors)-(demanded.has(a)?20:0)-autoplayProductScore(a,visitors)),name=candidates[0];if(!name)return null;const button=document.querySelector(`[data-shelf-craft="${name}"]`);return button&&!button.disabled?{page:"inventory",button,thought:`预判来客需求，主动制作${name}补充库存`}:null}
@@ -100,9 +102,9 @@ function shouldOpenShop(){const visitors=eligibleCustomersToday(),coverage=autop
 async function handleAutoplayVisitor(generation){
   if(state.resolved)return false;const type=state.currentVisitType||"shop";
   if(type==="resume")return autoplayClick("#sellButton","这份简历值得先收下",generation);
-  const hire=document.querySelector("#hireButton"),visitor=dailyCustomer();if(hire&&!hire.hidden&&!hire.disabled&&safeToHire(visitor))return autoplayClick(hire,"已预留三周工资，可以稳妥邀请它入职",generation);
+  const hire=document.querySelector("#hireButton"),visitor=dailyCustomer(),candidate=hire&&!hire.hidden,readiness=candidate?hireReadiness(visitor):null;if(candidate&&!hire.disabled&&readiness.ok)return autoplayClick(hire,`${readiness.reason}，邀请${visitor.name}入职`,generation);
   const sell=document.querySelector("#sellButton"),craft=document.querySelector("#craftButton");
-  if(sell&&!sell.disabled)return autoplayClick(sell,"库存足够，完成这笔交易",generation);
+  if(sell&&!sell.disabled)return autoplayClick(sell,candidate?`简历继续保留；${readiness.reason}，本次先完成交易`:"库存足够，完成这笔交易",generation);
   if(craft&&!craft.hidden&&!craft.disabled&&autoplayCanServe(visitor))return autoplayClick(craft,"材料足够且不会动用工资储备，先为客人制作",generation);
   return autoplayClick("#refuseButton",craft&&!craft.hidden&&!craft.disabled?"材料虽然够，但必须保留工资与应急库存，只能暂时拒绝":"现在无法完成，只能礼貌拒绝",generation)
 }
