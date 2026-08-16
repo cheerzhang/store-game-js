@@ -6,27 +6,28 @@ let autoplayGeneration = 0;
 
 function autoplayWait(ms) { return new Promise(resolve => setTimeout(resolve, ms)) }
 function setAutoplayThought(text) { const node=document.querySelector("#autoplayThought");if(node)node.textContent=text }
+function autoplayTargetName(target){if(target.dataset.repair)return `repair:${target.dataset.repair}:${target.dataset.method}`;if(target.dataset.fortify)return `fortify:${target.dataset.fortify}:${target.dataset.method}`;if(target.dataset.buy)return `decor-buy:${target.dataset.buy}`;if(target.dataset.decorToggle)return `decor-toggle:${target.dataset.decorToggle}`;if(target.dataset.display)return `product-display:${target.dataset.display}`;if(target.dataset.location)return `location:${target.dataset.location}`;return target.id||target.dataset.chooseMode||target.tagName.toLowerCase()}
 function renderAutoplayControl(){const panel=document.querySelector("#autoplayControl"),button=document.querySelector("#autoplayToggle");if(!panel||!button)return;panel.dataset.running=String(autoplayRunning);button.setAttribute("aria-pressed",String(autoplayRunning));button.querySelector("i").textContent=autoplayRunning?"Ⅱ":"▶";button.querySelector("b").textContent=autoplayRunning?"暂停":"自动玩"}
 
 function stopAutoplay(message="已暂停 · 现在由你接手"){
   autoplayRunning=false;autoplayGeneration+=1;clearTimeout(autoplayTimer);
   document.querySelectorAll(".auto-target").forEach(node=>node.classList.remove("auto-target"));
-  setAutoplayThought(state.actionInProgress?"暂停中 · 等小人走完当前路线":message);renderAutoplayControl()
+  setAutoplayThought(state.actionInProgress?"暂停中 · 等小人走完当前路线":message);renderAutoplayControl();window.LateLanternAIData?.stop(message)
 }
-function startAutoplay(){if(autoplayRunning||state.gameOver)return;autoplayRunning=true;autoplayGeneration+=1;setAutoplayThought("正在观察地图与库存…");renderAutoplayControl();showPage("visitor");scheduleAutoplay(260,autoplayGeneration)}
+function startAutoplay(){if(autoplayRunning||state.gameOver)return;autoplayRunning=true;autoplayGeneration+=1;setAutoplayThought("正在观察地图与库存…");renderAutoplayControl();window.LateLanternAIData?.start();showPage("visitor");scheduleAutoplay(260,autoplayGeneration)}
 function scheduleAutoplay(delay=AUTOPLAY_STEP_DELAY,generation=autoplayGeneration){clearTimeout(autoplayTimer);if(!autoplayRunning||generation!==autoplayGeneration)return;autoplayTimer=setTimeout(()=>autoplayStep(generation),delay)}
 
 async function autoplayClick(selector,thought,generation,pause=620){
   const target=typeof selector==="string"?document.querySelector(selector):selector;
   if(!target||target.disabled||!autoplayRunning||generation!==autoplayGeneration)return false;
-  setAutoplayThought(thought);target.classList.add("auto-target");target.scrollIntoView({behavior:"smooth",block:"center"});await autoplayWait(pause);target.classList.remove("auto-target");
-  if(!autoplayRunning||generation!==autoplayGeneration||target.disabled)return false;target.click();return true
+  setAutoplayThought(thought);window.LateLanternAIData?.decision({kind:"click",target:autoplayTargetName(target),thought});target.classList.add("auto-target");target.scrollIntoView({behavior:"smooth",block:"center"});await autoplayWait(pause);target.classList.remove("auto-target");
+  if(!autoplayRunning||generation!==autoplayGeneration||target.disabled)return false;target.click();window.LateLanternAIData?.acted();return true
 }
 
 async function autoplaySelect(select,value,thought,generation){
   if(!select||!autoplayRunning||generation!==autoplayGeneration)return false;
-  showPage("shop");setAutoplayThought(thought);select.classList.add("auto-target");select.scrollIntoView({behavior:"smooth",block:"center"});await autoplayWait(720);select.classList.remove("auto-target");
-  if(!autoplayRunning||generation!==autoplayGeneration)return false;select.value=value;select.dispatchEvent(new Event("change",{bubbles:true}));return true
+  showPage("shop");setAutoplayThought(thought);window.LateLanternAIData?.decision({kind:"select",target:select.dataset.staffRole||select.name||"staff-role",value,thought});select.classList.add("auto-target");select.scrollIntoView({behavior:"smooth",block:"center"});await autoplayWait(720);select.classList.remove("auto-target");
+  if(!autoplayRunning||generation!==autoplayGeneration)return false;select.value=value;select.dispatchEvent(new Event("change",{bubbles:true}));window.LateLanternAIData?.acted();return true
 }
 
 function wageReserve(type,item){return state.employees.reduce((sum,employee)=>{const wage=EMPLOYMENT[employee.name]?.wage;if(!wage||wage.type!==type||type==="item"&&wage.item!==item)return sum;return sum+wage.amount*2+(employee.debt||0)},0)}
@@ -44,6 +45,22 @@ function autoplayDefenseAction(){
 
 function autoplayStaffAction(){
   if(state.employees.length<2)return null;const employee=state.employees.find((entry,index)=>index>0&&entry.role==="greeter"&&activeEmployee(entry));if(!employee)return null;const ability=EMPLOYMENT[employee.name].abilities,role=ability.maker.enabled?"maker":"gather",select=document.querySelector(`[data-staff-role="${employee.name}"]`);return select?{select,role,thought:`已有迎宾，让${employee.name}改任${role==="maker"?"制作者":"采集员"}`} : null
+}
+
+function autoplayAmbienceAction(){
+  if(chapterNumber()>=2){
+    const unplaced=ownedDecor().filter(decor=>!state.plannedDecor.includes(decor.id)).sort((a,b)=>b.comfort-a.comfort)[0];
+    if(unplaced){const button=document.querySelector(`[data-decor-toggle="${unplaced.id}"]`);if(button&&!button.disabled)return {page:"shop",button,thought:`把已经买下的${unplaced.name}加入明日布置，改善来客感受`}}
+    const targetCount=Math.min(4,1+Math.floor(state.day/56)),visitors=eligibleCustomersToday();
+    if(state.decor.length<targetCount){
+      const choices=DECOR.filter(decor=>!state.decor.includes(decor.id)&&canBuy(decor)).filter(decor=>decor.cost.coins?state.coins-decor.cost.coins>=wageReserve("coins")+10:safeMaterialExpense({[decor.cost.item]:decor.cost.amount})).sort((a,b)=>{const appeal=decor=>visitors.reduce((sum,visitor)=>sum+(Array.isArray(decor.attract)?decor.attract.includes(visitor.category):decor.attract===visitor.category?1:0),0)*4+(decor.reward||0)*3+decor.comfort;return appeal(b)-appeal(a)}),decor=choices[0];
+      if(decor){const button=document.querySelector(`[data-buy="${decor.id}"]`);if(button&&!button.disabled)return {page:"shop",button,thought:`留足工资与修缮资源后，添置${decor.name}吸引合适的客人`}}
+    }
+  }
+  if(chapterNumber()>=6&&state.plannedDisplayedProducts.length<3){
+    const candidates=Object.keys(ITEMS).filter(name=>isDiscovered(name)&&count(name)>0&&!state.plannedDisplayedProducts.includes(name)),visitors=eligibleCustomersToday();candidates.sort((a,b)=>visitors.reduce((sum,c)=>sum+(VISITOR_MOODS[c.name]?.products?.[b]||0),0)-visitors.reduce((sum,c)=>sum+(VISITOR_MOODS[c.name]?.products?.[a]||0),0)||ITEMS[b].chapter-ITEMS[a].chapter);const name=candidates[0];if(name){const button=document.querySelector(`#inventoryGrid [data-display="${name}"]`);if(button&&!button.disabled)return {page:"inventory",button,thought:`把${name}列入明日柜台，利用来客喜好改善交易条件`}}
+  }
+  return null
 }
 
 function desiredMaterials(){
@@ -81,9 +98,10 @@ async function autoplayStep(generation){
     else if(state.visitorRevealed&&!state.resolved)await handleAutoplayVisitor(generation);
     else if(state.visitorRevealed&&state.resolved)await autoplayClick("#nextDayButton","来客已经离开，进入下一时段",generation);
     else{
-      const defense=autoplayDefenseAction(),staff=autoplayStaffAction();
+      const defense=autoplayDefenseAction(),staff=autoplayStaffAction(),ambience=autoplayAmbienceAction();
       if(defense){showPage("shop");await autoplayClick(defense.button,defense.thought,generation)}
       else if(staff)await autoplaySelect(staff.select,staff.role,staff.thought,generation);
+      else if(ambience){showPage(ambience.page);await autoplayClick(ambience.button,ambience.thought,generation)}
       else{showPage("visitor");if(shouldOpenShop())await autoplayClick('[data-location="shop"]',"库存或时机合适，回小店开门营业",generation);else{const choice=autoplayLocationChoice();if(choice)await autoplayClick(`[data-location="${choice.location.id}"]`,`计算配方、工资与修缮库存后，前往${choice.location.name}`,generation);else await autoplayClick('[data-location="shop"]',"地图此刻没有收获，留店等候客人",generation)}}
     }
   }catch(error){console.warn("自动玩家暂时停下：",error);stopAutoplay("遇到无法处理的状态，已交还控制");return}
