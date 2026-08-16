@@ -32,11 +32,12 @@ async function autoplaySelect(select,value,thought,generation){
 
 function wageReserve(type,item){return state.employees.reduce((sum,employee)=>{const wage=EMPLOYMENT[employee.name]?.wage;if(!wage||wage.type!==type||type==="item"&&wage.item!==item)return sum;return sum+wage.amount*2+(employee.debt||0)},0)}
 function safeToHire(visitor){const cfg=EMPLOYMENT[visitor.name],target=state.gameMode==="staff"?8:2,cap=typeof modeEmployeeCap==="function"?modeEmployeeCap():Infinity;if(!cfg||state.employees.length>=Math.min(target,cap)||totalDeals()<4||(state.survival?.credit??5)<3)return false;const wage=cfg.wage;if(wage.type==="coins")return state.coins>=wageReserve("coins")+wage.amount*3+20;return count(wage.item)>=wageReserve("item",wage.item)+wage.amount*3+2}
-function safeMaterialExpense(cost){return Object.entries(cost).every(([name,amount])=>count(name)-amount>=wageReserve("item",name)+(name==="风车旧木片"?3:1))}
+function safeMaterialExpense(cost){const crisis=(state.survival?.noTradeDays||0)>=3;return Object.entries(cost).every(([name,amount])=>count(name)-amount>=wageReserve("item",name)+(name==="风车旧木片"?(crisis?2:3):crisis?0:1))}
 
 function autoplayDefenseAction(){
   if(typeof fortressTotals!=="function")return null;ensureFortressState();const total=fortressTotals(),parts=Object.entries(state.fortress.parts).sort(([,a],[,b])=>a.health/a.max-b.health/b.max),[weakId,weak]=parts[0];
-  if(weak.health/weak.max<.78){const material=document.querySelector(`[data-repair="${weakId}"][data-method="materials"]`),coins=document.querySelector(`[data-repair="${weakId}"][data-method="coins"]`);if(material&&!material.disabled&&count("风车旧木片")>3)return {button:material,thought:`${SHOP_PARTS[weakId].name}耐久偏低，趁早用木料修补`};if(coins&&!coins.disabled&&state.coins>=wageReserve("coins")+28)return {button:coins,thought:`${SHOP_PARTS[weakId].name}需要预防性修缮`}}
+  const tradeCrisis=state.survival?.noTradeDays||0,repairThreshold=tradeCrisis>=3?.35:.78;if(weak.health/weak.max<repairThreshold){const material=document.querySelector(`[data-repair="${weakId}"][data-method="materials"]`),coins=document.querySelector(`[data-repair="${weakId}"][data-method="coins"]`);if(material&&!material.disabled&&count("风车旧木片")>3)return {button:material,thought:`${SHOP_PARTS[weakId].name}${tradeCrisis>=3?"已接近损坏":"耐久偏低"}，用木料修补`};if(coins&&!coins.disabled&&state.coins>=wageReserve("coins")+28)return {button:coins,thought:`${SHOP_PARTS[weakId].name}需要${tradeCrisis>=3?"紧急":"预防性"}修缮`}}
+  if(tradeCrisis>=3)return null;
   const forecastParts=new Set((state.tomorrowHazard?.types||[]).flatMap(id=>DISASTERS[id]?.parts||[])),risk=state.tomorrowHazard?.risk||0;if(risk<28&&state.fortress.quietDays<2&&total.health/total.max>.86)return null;
   const choices=FORTIFICATIONS.filter(item=>!state.fortress.installed.includes(item.id)&&(!item.requires||state.fortress.installed.includes(item.requires))).sort((a,b)=>(forecastParts.has(b.part)?1:0)-(forecastParts.has(a.part)?1:0)||a.gain-b.gain);
   for(const item of choices){const material=document.querySelector(`[data-fortify="${item.id}"][data-method="materials"]`),coins=document.querySelector(`[data-fortify="${item.id}"][data-method="coins"]`);if(material&&!material.disabled&&safeMaterialExpense(item.materials))return {button:material,thought:`预报可能影响${SHOP_PARTS[item.part].name}，安装${item.name}`};if(coins&&!coins.disabled&&state.coins>=wageReserve("coins")+(item.coins||0)+30)return {button:coins,thought:`留足工资后，用铜币安装${item.name}`}}
@@ -64,6 +65,7 @@ function autoplayProductScore(name,visitors){return visitors.reduce((sum,visitor
 function autoplayCraftAction(){if(chapterNumber()<4)return null;const visitors=autoplayExpectedVisitors(state.day),demanded=new Set(visitors.map(visitor=>visitor.item)),candidates=Object.keys(ITEMS).filter(name=>isDiscovered(name)&&canCraft(name)&&count(name)<(demanded.has(name)?2:1)&&safeMaterialExpense(ITEMS[name].recipe)).sort((a,b)=>(demanded.has(b)?20:0)+autoplayProductScore(b,visitors)-(demanded.has(a)?20:0)-autoplayProductScore(a,visitors)),name=candidates[0];if(!name)return null;const button=document.querySelector(`[data-shelf-craft="${name}"]`);return button&&!button.disabled?{page:"inventory",button,thought:`预判来客需求，主动制作${name}补充库存`}:null}
 
 function autoplayAmbienceAction(){
+  if((state.survival?.noTradeDays||0)>=2)return null;
   if(chapterNumber()>=2){
     const targetCount=Math.min(5,1+Math.floor(state.day/56)),visitors=autoplayExpectedVisitors(),ranked=ownedDecor().sort((a,b)=>autoplayDecorScore(b,visitors)-autoplayDecorScore(a,visitors)),target=new Set(ranked.slice(0,targetCount).filter(decor=>autoplayDecorScore(decor,visitors)>=0).map(decor=>decor.id)),remove=state.plannedDecor.find(id=>!target.has(id)),add=[...target].find(id=>!state.plannedDecor.includes(id));
     if(remove){const decor=DECOR.find(d=>d.id===remove),button=document.querySelector(`[data-decor-toggle="${remove}"]`);if(button&&!button.disabled)return {page:"shop",button,thought:`明日潜在来客不适合${decor.name}，先把它收起来`}}
@@ -81,16 +83,19 @@ function autoplayAmbienceAction(){
 
 function desiredMaterials(){
   const demand=new Map(),wantedProducts=new Set(),visitors=eligibleCustomersToday(),urgent=(state.survival?.noTradeDays||0)>=3;
-  if(urgent){const target=[...visitors].filter(visitor=>ITEMS[visitor.item]).sort((a,b)=>Object.entries(ITEMS[a.item].recipe).reduce((sum,[name,n])=>sum+Math.max(0,n-count(name)),0)-Object.entries(ITEMS[b.item].recipe).reduce((sum,[name,n])=>sum+Math.max(0,n-count(name)),0))[0];if(target)wantedProducts.add(target.item)}
+  if(urgent){const targetCount=(state.survival?.noTradeDays||0)>=5?5:3,ranked=[...visitors].filter(visitor=>ITEMS[visitor.item]).sort((a,b)=>{const burden=visitor=>Object.entries(ITEMS[visitor.item].recipe).reduce((sum,[name,n])=>sum+Math.max(0,n-count(name)),0);return visitorWeight(b)/(1+burden(b))-visitorWeight(a)/(1+burden(a))});for(const visitor of ranked)if(wantedProducts.size<targetCount)wantedProducts.add(visitor.item)}
   else{for(const visitor of visitors)wantedProducts.add(visitor.item);for(const name of state.discoveredItems||[])if(ITEMS[name])wantedProducts.add(name)}
-  for(const product of wantedProducts){const recipe=ITEMS[product]?.recipe;if(!recipe)continue;const productNeed=Math.max(0,(urgent?2:1)-count(product));for(const [material,amount] of Object.entries(recipe)){const shortage=Math.max(0,amount*productNeed-count(material));if(shortage)demand.set(material,(demand.get(material)||0)+shortage*(urgent?2:1))}}
+  for(const product of wantedProducts){const recipe=ITEMS[product]?.recipe;if(!recipe)continue;const productNeed=Math.max(0,(urgent?2:1)-count(product));for(const [material,amount] of Object.entries(recipe)){const protectedStock=wageReserve("item",material)+(material==="风车旧木片"?(urgent?2:3):urgent?0:1),usable=Math.max(0,count(material)-protectedStock),shortage=Math.max(0,amount*productNeed-usable);if(shortage)demand.set(material,(demand.get(material)||0)+shortage*(urgent?2:1))}}
   for(const employee of state.employees){const wage=EMPLOYMENT[employee.name]?.wage;if(wage?.type==="item"){const shortage=Math.max(0,wage.amount*3+(employee.debt||0)-count(wage.item));if(shortage)demand.set(wage.item,(demand.get(wage.item)||0)+shortage*1.8)}}
   if(typeof fortressTotals==="function"&&fortressTotals().health/fortressTotals().max<.9){const shortage=Math.max(0,5-count("风车旧木片"));if(shortage)demand.set("风车旧木片",(demand.get("风车旧木片")||0)+shortage*1.7)}
   return demand
 }
 function autoplayLocationChoice(){const demand=desiredMaterials();return WORLD_LOCATIONS.filter(location=>location.id!=="shop").map(location=>{const pool=gatherPool(location.id),score=pool.reduce((total,rule)=>total+(demand.get(rule.item)||.15)*(rule.rarity==="常见"?1.35:rule.rarity==="少见"?1:.7)+(rule.boosted?.8:0),0);return {location,pool,score}}).filter(option=>option.pool.length).sort((a,b)=>b.score-a.score)[0]||null}
 function emergencyRepairLocation(){return WORLD_LOCATIONS.filter(location=>location.id!=="shop").map(location=>({location,pool:gatherPool(location.id)})).find(option=>option.pool.some(rule=>rule.item==="风车旧木片"))||autoplayLocationChoice()}
-function shouldOpenShop(){const visitors=eligibleCustomersToday(),ready=visitors.some(visitor=>count(visitor.item)>=requestAmount(visitor)),craftReady=visitors.some(visitor=>canCraft(visitor.item));if(ready||craftReady)return true;if(!(state.discoveredItems||[]).some(name=>ITEMS[name]))return true;if((state.survival?.noTradeDays||0)>=4)return false;return state.timeSlot===0||state.timeSlot===2||state.timeSlot===4}
+function autoplayVisitorCraftCost(visitor){const missing=Math.max(0,requestAmount(visitor)-count(visitor.item)),recipe=ITEMS[visitor.item]?.recipe||{};return Object.fromEntries(Object.entries(recipe).map(([name,amount])=>[name,amount*missing]))}
+function autoplayCanServe(visitor){if(count(visitor.item)>=requestAmount(visitor))return true;const cost=autoplayVisitorCraftCost(visitor);return Object.keys(cost).length>0&&Object.entries(cost).every(([name,amount])=>count(name)>=amount)&&safeMaterialExpense(cost)}
+function autoplayCoverage(visitors=eligibleCustomersToday()){const total=visitors.reduce((sum,visitor)=>sum+visitorWeight(visitor),0),ready=visitors.filter(autoplayCanServe).reduce((sum,visitor)=>sum+visitorWeight(visitor),0);return total?ready/total:0}
+function shouldOpenShop(){const visitors=eligibleCustomersToday(),coverage=autoplayCoverage(visitors),noTrade=state.survival?.noTradeDays||0;if(!(state.discoveredItems||[]).some(name=>ITEMS[name]))return true;if(noTrade>=5)return coverage>=.9;if(noTrade>=3)return coverage>=.72;if(noTrade>=1)return coverage>=.5;if(coverage>=.34)return true;return state.timeSlot===0||state.timeSlot===2||state.timeSlot===4}
 
 async function handleAutoplayVisitor(generation){
   if(state.resolved)return false;const type=state.currentVisitType||"shop";
@@ -98,8 +103,8 @@ async function handleAutoplayVisitor(generation){
   const hire=document.querySelector("#hireButton"),visitor=dailyCustomer();if(hire&&!hire.hidden&&!hire.disabled&&safeToHire(visitor))return autoplayClick(hire,"已预留三周工资，可以稳妥邀请它入职",generation);
   const sell=document.querySelector("#sellButton"),craft=document.querySelector("#craftButton");
   if(sell&&!sell.disabled)return autoplayClick(sell,"库存足够，完成这笔交易",generation);
-  if(craft&&!craft.hidden&&!craft.disabled)return autoplayClick(craft,"材料足够，先为客人制作",generation);
-  return autoplayClick("#refuseButton","现在无法完成，只能礼貌拒绝",generation)
+  if(craft&&!craft.hidden&&!craft.disabled&&autoplayCanServe(visitor))return autoplayClick(craft,"材料足够且不会动用工资储备，先为客人制作",generation);
+  return autoplayClick("#refuseButton",craft&&!craft.hidden&&!craft.disabled?"材料虽然够，但必须保留工资与应急库存，只能暂时拒绝":"现在无法完成，只能礼貌拒绝",generation)
 }
 
 async function autoplayStep(generation){
