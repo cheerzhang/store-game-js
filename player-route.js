@@ -17,6 +17,7 @@ travelAndGather = async function(locationId) {
       if (rule !== first && found.length < 2 && Math.random() < rule.weight / 100 * .55) found.push(rule);
     }
   }
+  await playGatherTrail(location, found);
   for (const rule of found) {
     const amount = rule.rarity === "常见" && Math.random() < .35 ? 2 : 1;
     state.inventory[rule.item] = (state.inventory[rule.item] || 0) + amount;
