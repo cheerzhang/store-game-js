@@ -4,7 +4,6 @@ from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler
 from pathlib import Path
 import json
 import os
-import subprocess
 import tempfile
 
 ROOT = Path(__file__).resolve().parent
@@ -16,12 +15,6 @@ NUMBER_KEYS = {
     "hireCrisisLimit", "dismissMorale", "repairNormal", "repairCrisis",
     "recruitDecorBonus",
 }
-
-
-def run_git(*args):
-    return subprocess.run(
-        ["git", *args], cwd=ROOT, check=True, capture_output=True, text=True, timeout=45
-    ).stdout.strip()
 
 
 def load_policies():
@@ -69,9 +62,6 @@ class Handler(SimpleHTTPRequestHandler):
             origin = self.headers.get("Origin", "")
             if origin and not origin.startswith(("http://localhost:", "http://127.0.0.1:")):
                 raise ValueError("只接受本地游戏页面发起的发布请求")
-            branch = run_git("branch", "--show-current")
-            if branch != "main":
-                raise ValueError(f"当前分支是 {branch or 'detached HEAD'}，请切换到 main 后再发布")
             length = int(self.headers.get("Content-Length", "0"))
             if length <= 0 or length > 20000:
                 raise ValueError("请求大小无效")
@@ -87,16 +77,14 @@ class Handler(SimpleHTTPRequestHandler):
             with tempfile.NamedTemporaryFile("w", encoding="utf-8", dir=ROOT, delete=False) as handle:
                 handle.write(source)
                 temporary = Path(handle.name)
+            unchanged = POLICY_FILE.exists() and POLICY_FILE.read_text("utf-8") == source
             os.replace(temporary, POLICY_FILE)
-            run_git("add", "--", POLICY_FILE.name)
-            diff = subprocess.run(["git", "diff", "--cached", "--quiet", "--", POLICY_FILE.name], cwd=ROOT)
-            if diff.returncode != 0:
-                run_git("commit", "-m", f"chore(ai): publish {mode} policy", "--", POLICY_FILE.name)
-                run_git("push", "origin", "HEAD")
-                commit = run_git("rev-parse", "--short", "HEAD")
-                self.send_json(200, {"ok": True, "commit": commit, "message": "策略已推送，等待 GitHub Pages 部署"})
-            else:
-                self.send_json(200, {"ok": True, "unchanged": True, "message": "线上策略已经是这一版本"})
+            self.send_json(200, {
+                "ok": True,
+                "unchanged": unchanged,
+                "file": POLICY_FILE.name,
+                "message": "策略文件已更新，请在 Git 中检查后自行提交与推送",
+            })
         except Exception as error:
             self.send_json(500, {"ok": False, "error": str(error)})
 

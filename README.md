@@ -18,7 +18,7 @@
 python3 local_server.py
 ```
 
-然后打开 `http://localhost:8000/#ai-lab`。点击“同步最佳策略到在线版”会只更新并提交 `ai-policy-defaults.js`，随后推送当前分支；GitHub Pages 部署完成后，线上自动玩家会按对应游戏模式使用新策略。该接口只监听本机地址，不会在线上开放。
+然后打开 `http://localhost:8000/#ai-lab`。点击“写入线上策略文件”只会更新 `ai-policy-defaults.js`，不会暂存、提交或推送。你可以在 IDE 的 Git 变更中检查权重差异，再自行提交并推送；GitHub Pages 部署完成后，线上自动玩家会按对应游戏模式使用新策略。该接口只监听本机地址，不会在线上开放。
 
 ## 发布到 GitHub Pages
 
