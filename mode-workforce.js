@@ -42,9 +42,9 @@ function employeeEfficiency(employee){
   return Math.max(.55,Math.min(1.3,value))
 }
 function updateEmployeeMorale(){
-  ensureFortressState();for(const employee of state.employees){ensureEmployeeMorale(employee);if(employeeOnStrike(employee))continue;const cfg=employeeWorkConfig(employee.name),reasons=[];let change=employee.debt?-18:2;if(employee.debt)reasons.push("欠薪 −18");else reasons.push("工资正常 +2");
-    if(state.weather?.id===cfg.weather){change-=5;reasons.push(`不喜欢${state.weather.name} −5`)}if(state.todayDisaster?.day===state.day){change-=7;reasons.push("灾害冲击 −7")}const part=state.fortress.parts[cfg.part];if(part.health/part.max<.45){change-=9;reasons.push(`${SHOP_PARTS[cfg.part].name}状况危险 −9`)}if((state.survival?.credit??5)<=2){change-=6;reasons.push("店铺信用过低 −6")}
-    for(const coworker of state.employees)if(coworker!==employee&&sameWorkplace(employee,coworker)){if(cfg.likes.includes(coworker.name)){change+=3;reasons.push(`喜欢与${coworker.name}共事 +3`)}if(cfg.dislikes.includes(coworker.name)){change-=8;reasons.push(`不愿与${coworker.name}共事 −8`)}}
+  ensureFortressState();for(const employee of state.employees){ensureEmployeeMorale(employee);if(employeeOnStrike(employee))continue;const cfg=employeeWorkConfig(employee.name),reasons=[];let change=employee.debt?-18:employee.morale<60?4:2;if(employee.debt)reasons.push("欠薪 −18");else reasons.push(`工资正常 +${employee.morale<60?4:2}`);
+    if(state.weather?.id===cfg.weather){change-=3;reasons.push(`不喜欢${state.weather.name} −3`)}if(state.todayDisaster?.day===state.day){change-=5;reasons.push("灾害冲击 −5")}const part=state.fortress.parts[cfg.part];if(part.health/part.max<.45){change-=7;reasons.push(`${SHOP_PARTS[cfg.part].name}状况危险 −7`)}if((state.survival?.credit??5)<=2){change-=5;reasons.push("店铺信用过低 −5")}
+    for(const coworker of state.employees)if(coworker!==employee&&sameWorkplace(employee,coworker)){if(cfg.likes.includes(coworker.name)){change+=2;reasons.push(`喜欢与${coworker.name}共事 +2`)}if(cfg.dislikes.includes(coworker.name)){change-=3;reasons.push(`不愿与${coworker.name}共事 −3`)}}
     employee.morale=Math.max(0,Math.min(100,employee.morale+change));employee.moraleReasons=reasons.slice(-3);if(employee.morale<25&&Math.random()<Math.min(.75,(25-employee.morale)*.035)){const duration=1+Math.floor(Math.random()*3);employee.strikeUntil=state.day+duration;ensureModeStats();state.modeStats.strikes+=1;state.history.unshift({day:state.day,story:`${employee.name}放下了工作牌，开始罢工。`,outcome:`持续约 ${duration} 天 · 士气 ${employee.morale}`})}
   }save()
 }
