@@ -59,8 +59,8 @@ function autoplayStaffAction(){
   const maker=best(a=>a.maker.enabled,a=>a.maker.dailyLimit*5+(a.maker.priority==="rare"?3:a.maker.priority==="advanced"?2:0));if(maker){assigned.set(maker.name,"maker");remaining.delete(maker.name)}
   if(chapterNumber()>=6){const display=best(a=>a.display.enabled,a=>a.display.dailySlots*5+(a.display.strategy==="forecast"?4:a.display.strategy==="rare"?2:0));if(display){assigned.set(display.name,"display");remaining.delete(display.name)}}
   for(const name of remaining)assigned.set(name,"gather");
-  for(const employee of workers){const role=assigned.get(employee.name)||"greeter";if(employee.role!==role){const select=document.querySelector(`[data-staff-role="${employee.name}"]`);if(select&&[...select.options].some(option=>option.value===role))return {select,role,thought:`根据全店岗位组合，让${employee.name}担任${role==="greeter"?"迎宾":role==="maker"?"制作者":role==="display"?"陈列员":"采集员"}`}}}
-  const demand=desiredMaterials();for(const employee of workers.filter(e=>e.role==="gather")){const locations=EMPLOYMENT[employee.name].abilities.gather.locations,bestLocation=locations.map(id=>({id,score:gatherPool(id).reduce((sum,rule)=>sum+(demand.get(rule.item)||.2)+(rule.item===EMPLOYMENT[employee.name].abilities.gather.specialty?2:0),0)})).sort((a,b)=>b.score-a.score)[0]?.id;if(bestLocation&&bestLocation!==(employee.gatherLocation||locations[0])){const select=document.querySelector(`[data-gather-location="${employee.name}"]`);if(select)return {select,role:bestLocation,thought:`${bestLocation}当前更需要，调整${employee.name}的采集地点`}}}
+  for(const employee of workers){const role=assigned.get(employee.name)||"greeter";if(employee.role!==role){const thought=`根据全店岗位组合，让${employee.name}担任${role==="greeter"?"迎宾":role==="maker"?"制作者":role==="display"?"陈列员":"采集员"}`;if(window.LateLanternAILab?.fast){employee.role=role;if(role==="gather"&&!employee.gatherLocation)employee.gatherLocation=EMPLOYMENT[employee.name].abilities.gather.locations[0];return {direct:true,thought}}const select=document.querySelector(`[data-staff-role="${employee.name}"]`);if(select&&[...select.options].some(option=>option.value===role))return {select,role,thought}}}
+  const demand=desiredMaterials();for(const employee of workers.filter(e=>e.role==="gather")){const locations=EMPLOYMENT[employee.name].abilities.gather.locations,bestLocation=locations.map(id=>({id,score:gatherPool(id).reduce((sum,rule)=>sum+(demand.get(rule.item)||.2)+(rule.item===EMPLOYMENT[employee.name].abilities.gather.specialty?2:0),0)})).sort((a,b)=>b.score-a.score)[0]?.id;if(bestLocation&&bestLocation!==(employee.gatherLocation||locations[0])){const thought=`${bestLocation}当前更需要，调整${employee.name}的采集地点`;if(window.LateLanternAILab?.fast){employee.gatherLocation=bestLocation;return {direct:true,thought}}const select=document.querySelector(`[data-gather-location="${employee.name}"]`);if(select)return {select,role:bestLocation,thought}}}
   return null
 }
 
@@ -101,7 +101,14 @@ function emergencyRepairLocation(){return WORLD_LOCATIONS.filter(location=>locat
 function autoplayVisitorCraftCost(visitor){const missing=Math.max(0,requestAmount(visitor)-count(visitor.item)),recipe=ITEMS[visitor.item]?.recipe||{};return Object.fromEntries(Object.entries(recipe).map(([name,amount])=>[name,amount*missing]))}
 function autoplayCanServe(visitor){if(count(visitor.item)>=requestAmount(visitor))return true;const cost=autoplayVisitorCraftCost(visitor);return Object.keys(cost).length>0&&Object.entries(cost).every(([name,amount])=>count(name)>=amount)&&safeMaterialExpense(cost)}
 function autoplayCoverage(visitors=eligibleCustomersToday()){const total=visitors.reduce((sum,visitor)=>sum+visitorWeight(visitor),0),ready=visitors.filter(autoplayCanServe).reduce((sum,visitor)=>sum+visitorWeight(visitor),0);return total?ready/total:0}
-function shouldOpenShop(){const visitors=eligibleCustomersToday(),coverage=autoplayCoverage(visitors),noTrade=state.survival?.noTradeDays||0,policy=autoplayPolicy();if(!(state.discoveredItems||[]).some(name=>ITEMS[name]))return true;if(noTrade>=5)return coverage>=policy.crisisCoverage;if(noTrade>=3)return coverage>=Math.min(policy.crisisCoverage,.72);if(noTrade>=1)return coverage>=Math.min(policy.openCoverage+.08,.58);if(coverage>=policy.openCoverage)return true;return state.timeSlot===0||state.timeSlot===2||state.timeSlot===4}
+function shouldOpenShop(){const visitors=eligibleCustomersToday(),coverage=autoplayCoverage(visitors),noTrade=state.survival?.noTradeDays||0,policy=autoplayPolicy(),late=state.timeSlot===4;if(!(state.discoveredItems||[]).some(name=>ITEMS[name]))return true;
+  /* 生存底线：越接近连续七日无交易，营业门槛必须越低，不能因追求高覆盖率而整日闭店。 */
+  if(noTrade>=6)return coverage>0||late;
+  if(noTrade>=5)return coverage>=.12||late;
+  if(noTrade>=4)return coverage>=.24||late;
+  if(noTrade>=3)return coverage>=Math.min(policy.crisisCoverage,.4)||late;
+  if(noTrade>=1)return coverage>=Math.min(policy.openCoverage+.08,.58);
+  if(coverage>=policy.openCoverage)return true;return state.timeSlot===0||state.timeSlot===2||late}
 
 async function handleAutoplayVisitor(generation){
   if(state.resolved)return false;const type=state.currentVisitType||"shop";
@@ -130,6 +137,7 @@ async function autoplayStep(generation){
     else{
       const defense=autoplayDefenseAction(),staff=autoplayStaffAction(),crafting=autoplayCraftAction(),ambience=autoplayAmbienceAction();
       if(defense){showPage("shop");await autoplayClick(defense.button,defense.thought,generation)}
+      else if(staff?.direct)setAutoplayThought(staff.thought);
       else if(staff?.select)await autoplaySelect(staff.select,staff.role,staff.thought,generation);
       else if(staff?.button){showPage(staff.page||"shop");await autoplayClick(staff.button,staff.thought,generation)}
       else if(crafting){showPage(crafting.page);await autoplayClick(crafting.button,crafting.thought,generation)}
