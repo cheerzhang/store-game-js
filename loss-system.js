@@ -42,12 +42,28 @@ function triggerGameOver(type){
   ensureSurvivalState();state.gameOver={type,day:state.day,chapter:chapterNumber(),deals:totalDeals(),visits:totalVisits(),employees:state.employees.length};
   state.history.unshift({day:state.day,story:rule.title+"。",outcome:"本次经营结束"});save();if(typeof stopAutoplay==="function")stopAutoplay("本次经营已经结束");showGameOver()
 }
+function gameOverHonors(){
+  const ending=state.gameOver,total=typeof fortressTotals==="function"?fortressTotals():{health:0,max:0},relations=CUSTOMERS.map(visitor=>({visitor,rel:relation(visitor.name)})),best=relations.sort((a,b)=>b.rel.deals-a.rel.deals||b.rel.favor-a.rel.favor||b.rel.visits-a.rel.visits)[0],maxed=relations.filter(entry=>entry.rel.favor>=10).length,peak=Math.max(ending.employees,state.modeStats?.maxEmployees||0),revenue=state.modeStats?.revenue||0,disasters=state.modeStats?.disasters||0,installed=state.fortress?.installed?.length||0,integrity=total.max?Math.round(total.health/total.max*100):0;
+  return [
+    {icon:"🏮",label:"抵达章节",value:`第 ${ending.chapter} 章`,note:chapterForDay(ending.day)?.name||"故事仍在灯下"},
+    {icon:"🤝",label:"最深的客缘",value:best?.visitor.name||"尚未相识",note:best?`成交 ${best.rel.deals} 次 · 好感 ${best.rel.favor}/10`:"门铃还没有留下名字"},
+    {icon:"📖",label:"低地故事",value:`${state.metCustomers.length} 位来客`,note:`${maxed} 位满好感 · ${state.discoveredItems.length} 种配方`},
+    {icon:"♟",label:"团队高光",value:`最多 ${peak} 位员工`,note:peak?`最后仍有 ${ending.employees} 位留在店里`:"这是一段独自经营的旅程"},
+    {icon:"🌪️",label:"风雨之后",value:`挺过 ${disasters} 场灾害`,note:`坚固度 ${integrity}% · 完成 ${installed} 项加固`},
+    {icon:"🪙",label:"经营价值",value:revenue?`${revenue} 点`:`${state.coins} 枚铜币`,note:revenue?`模式累计收入 · 余款 ${state.coins}`:"最终留在钱箱里的积蓄"}
+  ]
+}
+function gameOverMemoryRows(){
+  const history=state.history||[],oldest=[...history].reverse(),firstTrade=oldest.find(entry=>/售出「/.test(entry.outcome||"")),firstHire=oldest.find(entry=>/确认录用|正式入职/.test(entry.outcome||"")),latestChapter=history.find(entry=>/解锁第/.test(entry.outcome||"")),fortify=history.find(entry=>/安装|加固/.test(`${entry.story} ${entry.outcome}`)),rows=[firstTrade&&{...firstTrade,title:"第一笔成交"},firstHire&&{...firstHire,title:"第一位伙伴"},latestChapter&&{...latestChapter,title:"最远的章节"},fortify&&{...fortify,title:"守住小店"}].filter(Boolean);return rows.filter((entry,index)=>rows.findIndex(other=>other.day===entry.day&&other.outcome===entry.outcome)===index).slice(0,4)
+}
 function showGameOver(){
   const ending=state.gameOver,dialog=document.querySelector("#gameOverDialog");if(!ending||!dialog)return;
   const other=document.querySelector("dialog[open]:not(#gameOverDialog)");if(other){setTimeout(showGameOver,700);return}
   const rule=LOSS_RULES[ending.type]||LOSS_RULES.destroyed;document.body.classList.add("game-is-over");
   document.querySelector("#gameOverIcon").textContent=rule.icon;document.querySelector("#gameOverTitle").textContent=rule.title;document.querySelector("#gameOverReason").textContent=rule.reason;document.querySelector("#gameOverEpilogue").textContent=rule.epilogue;
   document.querySelector("#gameOverStats").innerHTML=`<span><small>经营时间</small><strong>${ending.day} 天</strong></span><span><small>来客次数</small><strong>${ending.visits}</strong></span><span><small>成功交易</small><strong>${ending.deals}</strong></span><span><small>最后员工</small><strong>${ending.employees} 位</strong></span>`;
+  document.querySelector("#gameOverHighlights").innerHTML=`<header><small>THE LIGHTS THAT ONCE SHONE</small><strong>这家小店曾经很明亮</strong></header><div>${gameOverHonors().map(honor=>`<article><span>${honor.icon}</span><div><small>${honor.label}</small><strong>${honor.value}</strong><em>${honor.note}</em></div></article>`).join("")}</div>`;
+  const memories=gameOverMemoryRows();document.querySelector("#gameOverMemories").innerHTML=memories.length?`<header><small>MEMORIES FROM THE LEDGER</small><strong>值得留下的几页手记</strong></header><div>${memories.map(entry=>`<article><span>第 ${entry.day} 天</span><div><strong>${entry.title}</strong><p>${entry.story}</p><em>${entry.outcome}</em></div></article>`).join("")}</div>`:"";
   if(!dialog.open)dialog.showModal()
 }
 

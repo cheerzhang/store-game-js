@@ -6,11 +6,13 @@
   <meta name="theme-color" content="#191714">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta name="description" content="在荷兰低地经营一家奇怪的小店，探索地图、采集材料并聆听来客的故事。">
+  <script>try{const lab=JSON.parse(localStorage.getItem("late-lantern-ai-lab-v2"));if(lab?.running)document.documentElement.classList.add("ai-lab-booting")}catch{}</script>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/game-icon-192.png">
   <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
   <title>迟灯杂货铺</title>
-  <link rel="stylesheet" href="styles.css?v=98">
+  <link rel="stylesheet" href="styles.css?v=99">
+  <style>.ai-lab-live-controls{max-width:1050px;margin:0 auto 18px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.ai-lab-live-controls .button{width:100%;min-width:0;color:#f4e5c8!important;border:1px solid #9f7b47!important;background:#292016!important;text-shadow:0 1px 1px #000}.ai-lab-live-controls .button:hover{background:#3a2b1c!important;border-color:#e0b76f!important}.ai-lab-live-controls #aiLabLivePause{color:#21170b!important;background:#deb566!important;border-color:#f2d294!important;text-shadow:none}.ai-lab-live-controls #aiLabLiveStop{background:#2d2922!important;border-color:#b9a98d!important}.ai-lab-live-controls #aiLabLiveRestart{color:#ffe3d9!important;background:#4b211a!important;border-color:#c36b55!important}@media(max-width:600px){.ai-lab-live-controls{gap:6px}.ai-lab-live-controls .button{padding:10px 5px;font-size:.72rem}}</style>
 </head>
 <body>
   <div class="grain" aria-hidden="true"></div>
@@ -20,6 +22,7 @@
       <button class="nav-link active" data-page="visitor">来客</button>
       <button class="nav-link" data-page="inventory">货架</button>
       <button class="nav-link" data-page="log">日志</button>
+      <button class="nav-link local-only" data-page="ai-lab" id="aiLabNav" hidden>AI 实验室</button>
     </nav>
     <div class="status-row"><span id="chapterBadge">第一章</span><span>第 <b id="dayNumber">1</b> 日</span><span class="moon">◐</span><span><b id="coinCount">12</b> 枚铜币</span><span class="credit-status" id="creditStatus">信用 ◆◆◆◆◆</span></div>
   </header>
@@ -27,6 +30,15 @@
     <span class="autoplay-avatar" aria-hidden="true">♟</span>
     <span class="autoplay-copy"><small>普通自动玩家</small><strong id="autoplayThought">等待你交给它小店</strong></span>
     <button type="button" id="autoplayToggle" aria-pressed="false"><i>▶</i><b>自动玩</b></button>
+  </aside>
+  <aside class="ai-lab-live" id="aiLabLive" hidden aria-live="polite">
+    <header><span>◌</span><div><small>LOCAL AI WORKBENCH</small><strong id="aiLabLiveTitle">后台批量经营中</strong></div><b id="aiLabLiveCount">0 / 10</b></header>
+    <div class="ai-lab-live-controls"><button class="button craft" id="aiLabLivePause">暂停实验</button><button class="button ghost" id="aiLabLiveStop">结束并查看已有结果</button><button class="button ghost" id="aiLabLiveRestart">重新运行 10 局</button></div>
+    <div class="ai-lab-live-track"><i id="aiLabLiveBar"></i></div>
+    <p id="aiLabLiveStatus">正在准备第一局……</p>
+    <div class="ai-lab-live-vitals" id="aiLabLiveVitals"><article><small>员工</small><strong>0 位</strong></article><article><small>房屋</small><strong>100%</strong></article><article><small>信用</small><strong>5 / 5</strong></article><article><small>年度收入</small><strong>0</strong></article></div>
+    <div class="ai-lab-live-table"><table><thead><tr><th>局</th><th>策略</th><th>过关</th><th>天数</th><th>钱箱</th><th>模式成绩</th></tr></thead><tbody id="aiLabLiveRows"><tr><td colspan="6">第一局计算中……</td></tr></tbody></table></div>
+    <small class="ai-lab-live-note">这里只显示批量结果；地图、来客与弹窗不会播放。</small>
   </aside>
 
   <main>
@@ -95,6 +107,13 @@
       <div class="guest-stats" id="guestStats"></div>
       <details class="ledger history-book"><summary><div><p class="eyebrow">往日故事</p><h2>逐日记事</h2></div><span class="catalog-note">默认收起 · 点击展开最近记录</span></summary><div id="historyList" class="history-list"></div></details>
     </section>
+    <section class="game-page ai-lab-page" id="page-ai-lab">
+      <div class="page-title"><p class="eyebrow">LOCAL AI WORKBENCH</p><h1>AI 实验室</h1><p>只在本机显示。连续经营 10 局，比较钱箱余额，并保留表现最好的策略权重。</p></div>
+      <section class="ai-lab-controls"><div><small>评估设置</small><strong id="aiLabModeTitle">低地最会经营的小店 · 10 局</strong><p id="aiLabObjective">先判断年度目标是否通过；通过状态相同时，最终钱箱越多越好。</p></div><label>实验模式<select id="aiLabMode"><option value="lean">最会经营</option><option value="staff">店员之家</option><option value="storm">风暴守望者</option><option value="story">低地故事屋</option><option value="free">自由游戏</option></select></label><label>评估天数<input id="aiLabHorizon" type="number" min="28" max="672" step="28" value="336"></label><button class="button primary" id="aiLabStart">开始 10 局快速实验 →</button><button class="button ghost" id="aiLabStop" hidden>停止实验</button></section>
+      <section class="ai-lab-progress" id="aiLabProgress" hidden></section><section class="ai-lab-summary" id="aiLabSummary"></section>
+      <div class="ai-lab-table-wrap"><table class="ai-lab-table"><thead><tr><th>局</th><th>策略</th><th>过关</th><th>结束原因</th><th>天数</th><th>钱箱</th><th>模式成绩</th><th>成交</th><th>员工峰值</th><th>坚固度</th></tr></thead><tbody id="aiLabResults"><tr><td colspan="10">还没有本地实验记录。</td></tr></tbody></table></div>
+      <div class="ai-lab-actions"><button class="button craft" id="aiLabAdopt" hidden>采用最佳策略权重</button><button class="button ghost" id="aiLabClear">清空实验记录</button></div>
+    </section>
   </main>
 
   <footer><span>一天五个时段 · 营业或探索由你决定</span><span>所有故事仅保存在这台设备上</span></footer>
@@ -123,6 +142,8 @@
       <h2 id="gameOverTitle">小店的灯熄灭了</h2>
       <p id="gameOverReason"></p>
       <div class="game-over-stats" id="gameOverStats"></div>
+      <section class="game-over-highlights" id="gameOverHighlights"></section>
+      <section class="game-over-memories" id="gameOverMemories"></section>
       <blockquote id="gameOverEpilogue"></blockquote>
       <button class="button ai-log-export" id="exportAILogButton">导出本局 AI 决策日志 ↓</button>
       <small class="ai-log-export-status" id="aiLogExportStatus">仅下载到本地，不会上传网络</small>
@@ -144,8 +165,9 @@
   <script src="gather-map-ui.js?v=80"></script>
   <script src="inventory-ui.js?v=76"></script>
   <script src="autoplay.js?v=12"></script>
-  <script src="loss-system.js?v=2"></script>
+  <script src="loss-system.js?v=3"></script>
   <script src="mode-workforce.js?v=4"></script>
   <script src="ai-telemetry.js?v=3"></script>
+  <script src="ai-lab.js?v=1"></script>
 </body>
 </html>
