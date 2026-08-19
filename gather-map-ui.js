@@ -59,3 +59,10 @@ renderMapCandidates();
 /* 即使旧渲染尚未生成候选节点，也先补出被抽中的角色再播放到店动画。 */
 const walkVisitorToShopBase=walkVisitorToShop;
 walkVisitorToShop=async function(visitor){const layer=document.querySelector("#mapCandidates");if(!window.LateLanternAILab?.fast&&layer&&!layer.querySelector(`[data-map-candidate="${visitor.name}"]`)){const spawn=visitorSpawn(visitor,0),met=state.metCustomers.includes(visitor.name);layer.insertAdjacentHTML("beforeend",`<span class="map-candidate ${met?"is-known":"is-unknown"}" data-map-candidate="${visitor.name}" data-origin="${spawn.id}" style="left:${spawn.x}%;top:${spawn.y}%"><i>${portraitMarkup(visitor)}</i><b>${met?visitor.name:"?"}</b><em>正在前来</em></span>`)}return walkVisitorToShopBase(visitor)};
+
+/* On phones, center the full town before any player or visitor route animation. */
+async function focusMobileWorldMap(){if(window.LateLanternAILab?.fast||!matchMedia("(max-width: 760px)").matches)return;document.querySelector("#worldMap")?.scrollIntoView({behavior:"smooth",block:"center"});await new Promise(resolve=>setTimeout(resolve,260))}
+const walkMapRouteBeforeMobileFocus=walkMapRoute;
+walkMapRoute=async function(points,reverse=false){await focusMobileWorldMap();return walkMapRouteBeforeMobileFocus(points,reverse)};
+const walkVisitorBeforeMobileFocus=walkVisitorToShop;
+walkVisitorToShop=async function(visitor){await focusMobileWorldMap();return walkVisitorBeforeMobileFocus(visitor)};
