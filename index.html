@@ -11,7 +11,7 @@
   <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/game-icon-192.png">
   <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
   <title>迟灯杂货铺</title>
-  <link rel="stylesheet" href="styles.css?v=107">
+  <link rel="stylesheet" href="styles.css?v=110">
   <style>.ai-lab-live-controls{max-width:1050px;margin:0 auto 18px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.ai-lab-live-controls .button{width:100%;min-width:0;color:#f4e5c8!important;border:1px solid #9f7b47!important;background:#292016!important;text-shadow:0 1px 1px #000}.ai-lab-live-controls .button:hover{background:#3a2b1c!important;border-color:#e0b76f!important}.ai-lab-live-controls #aiLabLivePause{color:#21170b!important;background:#deb566!important;border-color:#f2d294!important;text-shadow:none}.ai-lab-live-controls #aiLabLiveStop{background:#2d2922!important;border-color:#b9a98d!important}.ai-lab-live-controls #aiLabLiveRestart{color:#ffe3d9!important;background:#4b211a!important;border-color:#c36b55!important}.ai-lab-table tbody td{color:#d8cbb5!important}.ai-lab-table tbody td.strategy-name{color:#f0ddb7!important;font-weight:700}.ai-lab-table tbody td.mode-score{color:#c5b699!important}.ai-lab-table tbody td.result-reason{color:#b8aa94!important}.ai-lab-table .lab-pass{display:inline-block;padding:3px 7px;border-radius:999px;font-weight:700}.ai-lab-table .lab-pass.passed{color:#cde6b5;background:#26351f}.ai-lab-table .lab-pass.failed{color:#efb4a4;background:#412019}.ai-lab-table tbody tr:hover td{background:#201b15}.ai-lab-table tbody td strong{color:#ffe09d!important}@media(max-width:600px){.ai-lab-live-controls{gap:6px}.ai-lab-live-controls .button{padding:10px 5px;font-size:.72rem}}</style>
   <style>.ai-lab-live-vitals{grid-template-columns:repeat(5,minmax(0,1fr))}@media(max-width:800px){.ai-lab-live-vitals{grid-template-columns:repeat(2,minmax(0,1fr))}}</style>
 </head>
@@ -149,7 +149,8 @@
       <blockquote id="gameOverEpilogue"></blockquote>
       <button class="button ai-log-export" id="exportAILogButton">导出本局 AI 决策日志 ↓</button>
       <small class="ai-log-export-status" id="aiLogExportStatus">仅下载到本地，不会上传网络</small>
-      <button class="button primary" id="restartGameButton">重新开一家小店 →</button>
+      <button class="button primary" id="restartGameButton" type="button">重新开一家小店 →</button>
+      <div class="restart-confirm" id="restartConfirm" hidden><strong>确定舍弃本次经营记录吗？</strong><small>当前天数、库存、客簿、员工和日志都会清空，且无法恢复。</small><div><button class="button ghost" id="restartCancel" type="button">先不重开</button><button class="button primary" id="restartConfirmButton" type="button">确认重新开店</button></div></div>
       <small>重新开始会清除本次保存在设备上的经营进度</small>
     </div>
   </dialog>
@@ -163,12 +164,12 @@
   <script src="game.js?v=89"></script>
   <script src="employment-fixes.js?v=84"></script>
   <script src="disaster-system.js?v=92"></script>
-  <script src="player-route.js?v=84"></script>
-  <script src="gather-map-ui.js?v=84"></script>
+  <script src="player-route.js?v=86"></script>
+  <script src="gather-map-ui.js?v=89"></script>
   <script src="inventory-ui.js?v=76"></script>
   <script src="ai-policy-defaults.js?v=1"></script>
-  <script src="autoplay.js?v=15"></script>
-  <script src="loss-system.js?v=3"></script>
+  <script src="autoplay.js?v=16"></script>
+  <script src="loss-system.js?v=4"></script>
   <script src="mode-workforce.js?v=6"></script>
   <script src="ai-telemetry.js?v=3"></script>
   <script src="ai-lab.js?v=5"></script>

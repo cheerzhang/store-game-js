@@ -87,6 +87,9 @@ const disasterBeforeLoss=applyDailyDisaster;
 applyDailyDisaster=function(forecast){disasterBeforeLoss(forecast);if(state.gameMode!=="free"&&fortressTotals().health<=0)setTimeout(()=>triggerGameOver("destroyed"),2100)};
 
 document.querySelector("#gameOverDialog")?.addEventListener("cancel",event=>event.preventDefault());
-document.querySelector("#restartGameButton")?.addEventListener("click",()=>{if(confirm("确定结束本次记录并重新开店吗？\n\n当前天数、库存、客簿、员工和日志都会清空，且无法恢复。")){localStorage.removeItem("late-lantern-save");location.hash="visitor";location.reload()}});
+function resetEndedGame(){if(typeof stopAutoplay==="function")stopAutoplay("正在重新开店");localStorage.removeItem("late-lantern-save");location.hash="visitor";location.reload()}
+document.querySelector("#restartGameButton")?.addEventListener("click",()=>{document.querySelector("#restartGameButton").hidden=true;document.querySelector("#restartConfirm").hidden=false;document.querySelector("#restartConfirmButton")?.focus()});
+document.querySelector("#restartCancel")?.addEventListener("click",()=>{document.querySelector("#restartConfirm").hidden=true;document.querySelector("#restartGameButton").hidden=false;document.querySelector("#restartGameButton")?.focus()});
+document.querySelector("#restartConfirmButton")?.addEventListener("click",resetEndedGame);
 ensureSurvivalState();renderSurvivalStatus();save();
 if(state.gameOver)setTimeout(showGameOver,250);else if(state.gameMode&&state.gameMode!=="free"&&typeof fortressTotals==="function"&&fortressTotals().health<=0)setTimeout(()=>triggerGameOver("destroyed"),state.todayDisaster?.day===state.day&&!state.todayDisaster.announced?2200:350);

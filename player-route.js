@@ -9,21 +9,14 @@ travelAndGather = async function(locationId) {
   document.querySelectorAll("[data-location]").forEach(button => button.disabled = true);
   if (route.length) await walkMapRoute(route);
 
-  const pool = gatherPool(locationId), found = [], awarded = [], items = [];
-  if (pool.length) {
-    const first = weightedPick(pool.map(rule => ({rule, weight: rule.weight}))).rule;
-    found.push(first);
-    for (const rule of pool) {
-      if (rule !== first && found.length < 2 && Math.random() < rule.weight / 100 * .55) found.push(rule);
-    }
-  }
-  await playGatherTrail(location, found);
-  for (const rule of found) {
-    const amount = rule.rarity === "常见" && Math.random() < .35 ? 2 : 1;
-    state.inventory[rule.item] = (state.inventory[rule.item] || 0) + amount;
-    state.dailyDrops.push({name:rule.item, amount, time:currentTime().name, location:location.name});
-    awarded.push(`${rule.item}×${amount}`);
-    items.push({name:rule.item, amount});
+  const pool = gatherPool(locationId), awarded = [], items = [];
+  const found = pool.length ? await playGatherTrail(location, null) : [];
+  const totals=new Map();for(const rule of found)totals.set(rule.item,(totals.get(rule.item)||0)+1);
+  for (const [name,amount] of totals) {
+    state.inventory[name] = (state.inventory[name] || 0) + amount;
+    state.dailyDrops.push({name, amount, time:currentTime().name, location:location.name});
+    awarded.push(`${name}×${amount}`);
+    items.push({name, amount});
   }
   settleVacationDebt();
   await playGatherEffect(location, found);
