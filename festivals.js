@@ -19,6 +19,7 @@ function activateFestivalVisitor(entry){
   const visitor=dailyCustomer(),position=state.festivalTotal-state.festivalQueue.length;state.pendingPeriodAction={time:currentTime().name,icon:festivalOn().icon,type:"shop",visitor:visitor.name,title:`${festivalOn().name}营业 · ${state.festivalTotal} 位来客`};state.periodResult={icon:festivalOn().icon,title:`${currentTime().name} · ${festivalOn().name}`,text:`${state.festivalTotal} 位客人结伴来到小店，正在接待第 ${position} 位。`};save();render()
 }
 async function walkFestivalCrowd(entries){
+  if(window.LateLanternAILab?.fast)return;
   if(typeof walkVisitorToShop!=="function")return;
   await Promise.all(entries.map((entry,index)=>new Promise(resolve=>setTimeout(resolve,index*120)).then(()=>walkVisitorToShop(CUSTOMERS[entry.index]))))
 }
@@ -47,7 +48,7 @@ advancePeriod=function(force=false,playerAway=false){
 };
 
 const renderBeforeFestivals=render;
-render=function(){renderBeforeFestivals();renderFestivalUI()};
+render=function(){renderBeforeFestivals();if(!window.LateLanternAILab?.fast)renderFestivalUI()};
 function renderFestivalUI(){
   const festival=festivalOn(),banner=document.querySelector("#festivalBanner");document.body.dataset.festival=festival?.id||"";
   if(!festival){banner.hidden=true;banner.innerHTML="";return}
